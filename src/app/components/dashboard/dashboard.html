@@ -1,1 +1,12 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <h2>Panel de control (Test)</h2>
+  <p>Test de estado reactivo y bloqueo de interfaz.</p>
+
+  <button (click)="onLaunchTest()" [disabled]="isLocked()" class="btn-deploy">
+    @if (isLocked()) {
+      Procesando despliegue
+    } @else {
+      Lanzar prueba de despliegue
+    }
+  </button>
+</div>
