@@ -2,7 +2,7 @@
   <h2>Panel de control (Test)</h2>
   <p>Test de estado reactivo y bloqueo de interfaz.</p>
 
-  <button (click)="onLaunchTest()" [disabled]="isLocked()" class="btn-deploy">
+  <button (click)="onLaunchDeployment()" [disabled]="isLocked()" class="btn-deploy">
     @if (isLocked()) {
       Procesando despliegue
     } @else {
