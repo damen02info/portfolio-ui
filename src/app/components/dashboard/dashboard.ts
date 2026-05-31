@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { Deployment } from '../../services/deployment';
 import { DeployRequest } from '../../services/deployment.interface';
+import { AutoScrollDirective } from '../../directives/auto-scroll.directive'; 
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [AutoScrollDirective],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
