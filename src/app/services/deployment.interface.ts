@@ -1,5 +1,6 @@
 export interface DeployRequest {
   project: string;
+  deploymentId: string;
 }
 
 export interface DeployResponse {

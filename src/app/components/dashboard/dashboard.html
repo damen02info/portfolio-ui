@@ -9,4 +9,20 @@
       Lanzar prueba de despliegue
     }
   </button>
+
+  @if (logs().length > 0) {
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="terminal-title">live-deployment-logs.log</span>
+      </div>
+      <div class="terminal-body">
+        @for (line of logs(); track $index) {
+          <div class="log-line"><span class="log-prompt">></span> {{ line }}</div>
+        }
+      </div>
+    </div>
+  }
 </div>
