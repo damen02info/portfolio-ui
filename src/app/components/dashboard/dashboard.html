@@ -18,7 +18,7 @@
         <span class="dot green"></span>
         <span class="terminal-title">live-deployment-logs.log</span>
       </div>
-      <div class="terminal-body">
+      <div class="terminal-body" appAutoScroll>
         @for (line of logs(); track $index) {
           <div class="log-line"><span class="log-prompt">></span> {{ line }}</div>
         }
