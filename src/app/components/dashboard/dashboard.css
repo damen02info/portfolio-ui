@@ -1,4 +1,4 @@
-/* --- Main container --- */
+/* --- First section --- */
 .hero-section {
   display: flex;
   justify-content: center;
@@ -144,4 +144,198 @@
 /* Interaction */
 .avatar-circle:hover::after {
   opacity: 1;
+}
+
+/* --- 2 Section --- */
+.education-section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 5%;
+  color: var(--text-main);
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 0 0 50px 0;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* Línea divisoria sutil */
+}
+
+.education-container {
+  display: flex;
+  gap: 60px;
+}
+
+/* Left Column */
+.education-timeline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 585px;
+  margin: auto 0;
+}
+
+.edu-card {
+  background-color: var(--btn-secondary-bg);
+  border-radius: 16px;
+  padding: 25px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+}
+
+.edu-card:hover {
+  transform: translateX(10px);
+}
+
+.edu-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.edu-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.edu-date {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  align-self: flex-start;
+}
+
+/* Righ column */
+.skills-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+}
+
+.skills-group {
+  width: 100%;
+  max-width: 400px;
+}
+
+.skills-title {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 30px 0;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.skill-circle {
+  width: 70px;
+  height: 70px;
+  background-color: #213c96;
+  border-radius: 50%;
+  box-shadow: inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+
+  background-size: 55%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.skill-item span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Logos */
+
+/* Software Skills */
+.skill-java {
+  background-color: #e41f23;
+  background-image: url('assets/logos/java_logo.png');
+}
+
+.skill-spring {
+  background-color: #6db33f;
+  background-image: url('assets/logos/springboot_logo.png');
+}
+
+.skill-python {
+  background-color: #3776ab;
+  background-image: url('assets/logos/python_logo.png');
+}
+
+.skill-angular {
+  background-color: #dd0031;
+  background-image: url('assets/logos/angular_logo.png');
+}
+
+.skill-postgres {
+  background-color: #336791;
+  background-image: url('assets/logos/postgresql_logo.png');
+}
+
+.skill-oracle {
+  background-color: #f80000;
+  background-image: url('assets/logos/oracle_logo.png');
+}
+
+.skill-mysql {
+  background-color: #11446c;
+  background-image: url('assets/logos/mysql_logo.png');
+}
+
+/* Middleware, DevOps & Tools */
+.skill-wso2 {
+  background-color: #e46e2e;
+}
+
+.skill-mule {
+  background-color: #11446c;
+  background-image: url('assets/logos/mulesoft_logo.png');
+}
+
+.skill-yaml {
+  background-color: #cb171e;
+  background-image: url('assets/logos/openapi_logo.png');
+}
+
+.skill-weblogic {
+  background-color: #ea1c24;
+  background-image: url('assets/logos/weblogic_logo.png');
+}
+
+.skill-docker {
+  background-color: #11446c;
+  background-image: url('assets/logos/docker_logo.png');
+}
+
+.skill-postman {
+  background-color: #ff6c37;
+  background-image: url('assets/logos/postman_logo.png');
+}
+
+.skill-git {
+  background-color: #f05032;
+  background-image: url('assets/logos/git_logo.png');
 }
