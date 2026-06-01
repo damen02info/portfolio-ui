@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* src/styles.css */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh; 
+  
+  background: linear-gradient(135deg, #05050f 0%, #111424 50%, #1e1b4b 100%);
+  
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  
+  background-attachment: fixed;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --text-main: #ffffff;
+  --text-muted: #a3a8b5;
+  --accent: #c75eb1;
+  --btn-primary-bg: #da6ebe;
+  --btn-secondary-bg: #4a3443;
+}

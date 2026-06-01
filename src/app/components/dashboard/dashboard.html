@@ -1,28 +1,25 @@
-<div class="dashboard-container">
-  <h2>Panel de control (Test)</h2>
-  <p>Test de estado reactivo y bloqueo de interfaz.</p>
+<section class="hero-section">
+  <div class="hero-content">
+    <h2 class="greeting">Encantado, soy</h2>
+    <h1 class="name">Daniel Méndez</h1>
+    <h3 class="role">Backend Developer & DevOps Junior</h3>
+    
+    <p class="description">
+      Descripción personalDescripción personalDescripción personalDescripción
+      personalDescripción personalDescripción personalDescripción personalDescripción
+      personalDescripción personalDescripción personal
+    </p>
 
-  <button (click)="onLaunchDeployment()" [disabled]="isLocked()" class="btn-deploy">
-    @if (isLocked()) {
-      Procesando despliegue
-    } @else {
-      Lanzar prueba de despliegue
-    }
-  </button>
-
-  @if (logs().length > 0) {
-    <div class="terminal-container">
-      <div class="terminal-header">
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
-        <span class="terminal-title">live-deployment-logs.log</span>
+    <div class="action-buttons">
+      <div class="top-row">
+        <button class="btn btn-secondary">Demo de despliegue</button>
+        <button class="btn btn-secondary">Contacto</button>
       </div>
-      <div class="terminal-body" appAutoScroll>
-        @for (line of logs(); track $index) {
-          <div class="log-line"><span class="log-prompt">></span> {{ line }}</div>
-        }
-      </div>
+      <button class="btn btn-primary">CV</button>
     </div>
-  }
-</div>
+  </div>
+
+  <div class="hero-avatar">
+    <div class="avatar-circle"></div>
+  </div>
+</section>
