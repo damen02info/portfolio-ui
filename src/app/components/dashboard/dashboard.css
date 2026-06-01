@@ -1,84 +1,147 @@
-.dashboard-container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.btn-deploy {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.btn-deploy:hover:not(:disabled) {
-  background-color: #0056b3;
-}
-
-.btn-deploy:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-
-.terminal-container {
-  margin-top: 24px;
-  background-color: #1e1e1e;
-  border-radius: 6px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  max-width: 800px;
-}
-
-
-.terminal-header {
-  background-color: #323232;
-  padding: 8px 12px;
+/* --- Main container --- */
+.hero-section {
   display: flex;
+  justify-content: center;
   align-items: center;
+  gap: 40px;
+  min-height: 100vh;
+  padding: 80px 5%;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-main);
+  box-sizing: border-box;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.dot {
-  width: 12px;
-  height: 12px;
+/* --- Column --- */
+.hero-content {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero-avatar {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* --- Typography --- */
+.greeting,
+.name {
+  margin: 0;
+}
+
+.greeting {
+  font-size: 1.8rem;
+  font-weight: 300;
+}
+
+.name {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.role {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 10px 0 20px 0;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 420px;
+  margin-bottom: 40px;
+}
+
+/* --- BOTTON --- */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 380px;
+}
+
+.top-row {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  border: none;
+  border-radius: 30px;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 16px 20px;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary {
+  flex: 1;
+  background-color: var(--btn-secondary-bg);
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  background-color: #5c4153;
+}
+
+.btn-primary {
+  width: 100%;
+  background-color: var(--btn-primary-bg);
+  color: #000000;
+}
+
+.btn-primary:hover {
+  background-color: #e880cc;
+}
+
+/* --- Avatar --- */
+.avatar-circle {
+  width: 500px;
+  height: 500px;
+  background-color: #000000;
   border-radius: 50%;
-  margin-right: 6px;
-  display: inline-block;
-}
-.red { background-color: #ff5f56; }
-.yellow { background-color: #ffbd2e; }
-.green { background-color: #27c93f; }
+  border: 15px solid #1a1a1a;
+  box-shadow: 0 0 40px rgba(199, 84, 166, 0.15);
 
-.terminal-title {
-  color: #c4c4c4;
-  font-size: 13px;
-  font-family: monospace;
-  margin-left: 10px;
+  position: relative;
+  overflow: hidden;
+
+  /* First photo */
+  background-image: url('assets/Avatar.jpeg');
+  background-size: cover;
+  background-position: center;
 }
 
+.avatar-circle::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
-.terminal-body {
-  padding: 16px;
-  max-height: 300px; 
-  overflow-y: auto; 
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 14px;
-  color: #4af626; 
-  line-height: 1.5;
+  /* Second photo */
+  background-image: url('assets/Avatar2.png');
+  background-size: cover;
+  background-position: center;
+
+  /* For animation*/
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
 }
 
-.log-line {
-  margin-bottom: 4px;
-  word-break: break-all;
-}
-
-.log-prompt {
-  color: #007bff;
-  font-weight: bold;
-  margin-right: 6px;
+/* Interaction */
+.avatar-circle:hover::after {
+  opacity: 1;
 }
