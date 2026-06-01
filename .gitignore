@@ -42,3 +42,7 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Personal Photos
+src/app/components/dashboard/assets/Avatar.jpeg
+src/app/components/dashboard/assets/Avatar2.png
