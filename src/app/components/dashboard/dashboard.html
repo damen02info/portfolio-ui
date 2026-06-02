@@ -134,7 +134,6 @@
   <h2 class="section-title">Experiencia</h2>
 
   <div class="experience-list">
-    
     <div class="exp-row">
       <div class="exp-logo-col">
         <div class="logo-diamond logo-ntt"></div>
@@ -143,7 +142,9 @@
         <span class="exp-date">Feb 2026 - Jun 2026</span>
         <h4 class="exp-role">Backend Developer Jr - NTT Data</h4>
         <p class="exp-desc">
-          Desarrollo Backend con Java y Spring Boot para aplicaciones críticas (AENA), optimizando la escalabilidad y estabilidad del software. Diseño de especificaciones con Swagger (YAML) e integración de servicios mediante middleware WSO2 y MuleSoft.
+          Desarrollo Backend con Java y Spring Boot para aplicaciones críticas (AENA), optimizando
+          la escalabilidad y estabilidad del software. Diseño de especificaciones con Swagger (YAML)
+          e integración de servicios mediante middleware WSO2 y MuleSoft.
         </p>
       </div>
     </div>
@@ -156,7 +157,8 @@
         <span class="exp-date">Jul 2025 - Feb 2026</span>
         <h4 class="exp-role">Técnico de montaje - PcComponentes</h4>
         <p class="exp-desc">
-          Montaje y configuración avanzada de equipos de alto rendimiento, asegurando la compatibilidad óptima entre hardware y software en un entorno de alto volumen.
+          Montaje y configuración avanzada de equipos de alto rendimiento, asegurando la
+          compatibilidad óptima entre hardware y software en un entorno de alto volumen.
         </p>
       </div>
     </div>
@@ -169,10 +171,126 @@
         <span class="exp-date">Feb 2021 - Dic 2021</span>
         <h4 class="exp-role">Técnico de Mantenimiento - SpiderSystem</h4>
         <p class="exp-desc">
-          Diagnóstico lógico y resolución de incidencias de software/hardware para clientes finales y PYMES. Configuración de redes y sistemas TPV.
+          Diagnóstico lógico y resolución de incidencias de software/hardware para clientes finales
+          y PYMES. Configuración de redes y sistemas TPV.
         </p>
       </div>
     </div>
-
   </div>
-</section> 
+</section>
+
+<!-- Fourth section -->
+<section class="demo-section">
+  <div class="demo-header">
+    <h2 class="section-title">DeployStream: Laboratorio de Entornos Efímeros</h2>
+
+    <div class="demo-summary-box">
+      <p class="demo-main-idea">
+        Para demostrar mis competencias integrando
+        <strong>Desarrollo de Software (Full-stack)</strong> e
+        <strong>Infraestructura (DevOps)</strong>, he diseñado este panel de control interactivo. No
+        es una simulación estática: interactúa con un servidor real en producción.
+      </p>
+
+      <div class="demo-architecture-highlights">
+        <div class="highlight-item">
+          <strong>Ecosistema Asíncrono:</strong> Angular 17+ gestiona la UI mediante
+          <em>Signals</em>, mientras que el backend en Spring Boot 3.x delega la carga pesada de
+          forma asíncrona (<code>@Async</code>).
+        </div>
+        <div class="highlight-item">
+          <strong>Streaming de Eventos (SSE):</strong> El pipeline de Jenkins escribe trazas
+          directamente en la base de datos, y un canal reactivo de <em>Server-Sent Events</em> las
+          empuja al navegador sin sobrecargar la red con WebSockets o Polling.
+        </div>
+        <div class="highlight-item">
+          <strong>Ciclo de Vida Efímero:</strong> Una tarea programada (<code>@Scheduled</code>)
+          audita los cambios y ejecuta un rollback automático a los 5 minutos, emulando la
+          destrucción de infraestructura temporal en producción.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-container">
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <div class="terminal-buttons">
+          <span class="close-btn"></span>
+          <span class="min-btn"></span>
+          <span class="max-btn"></span>
+        </div>
+        <div class="terminal-title">LOGS EN TIEMPO REAL - DeployStream</div>
+      </div>
+      <div class="terminal-body">
+        <pre><code>daniel@deploystream:~$ _
+<br>
+[INFO] Recibiendo petición de cambio de tema a: Rojo
+[INFO] Iniciando pipeline de Jenkins...
+[INFO] Levantando contenedores efímeros...
+[INFO] Sincronizando estado con base de datos...</code></pre>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <h3 class="panel-title">Panel de control</h3>
+
+      <div class="panel-group">
+        <label>Seleccionar variable de entorno:</label>
+        <div class="color-options">
+          <button class="color-dot color-red" aria-label="Rojo"></button>
+          <button class="color-dot color-green" aria-label="Verde"></button>
+          <button class="color-dot color-blue" aria-label="Azul"></button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-deploy">Ejecutar Despliegue</button>
+    </div>
+  </div>
+  <div class="db-monitor-wrapper">
+    <div class="db-header">
+      <div class="db-title-group">
+        <span class="db-title"
+          >PostgreSQL Live Monitor — <span class="db-table-name">public.app_config</span></span
+        >
+      </div>
+      <div class="db-status">
+        <span class="pulse-dot"></span>
+        Conectado
+      </div>
+    </div>
+
+    <div class="db-table-container">
+      <table class="db-table">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>config_key</th>
+            <th>config_value</th>
+            <th>last_modified</th>
+            <th>rollback_status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-number">1</td>
+            <td class="td-string">THEME_COLOR</td>
+            <td class="td-value">
+              <span class="color-indicator" style="background-color: #0088ff"></span> 'blue'
+            </td>
+            <td class="td-date">2026-06-02 02:05:10.000</td>
+            <td><span class="badge badge-stable">STABLE</span></td>
+          </tr>
+          <!-- Examples until back add -->
+          <tr>
+            <td class="td-number">2</td>
+            <td class="td-string">MAX_CONCURRENT_SESSIONS</td>
+            <td class="td-value td-number">150</td>
+            <td class="td-date">2026-05-20 14:30:00.000</td>
+            <td><span class="badge badge-stable">STABLE</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
