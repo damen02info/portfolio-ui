@@ -43,6 +43,7 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 
-# Personal Photos
+# Personal 
 src/app/components/dashboard/assets/Avatar.jpeg
 src/app/components/dashboard/assets/Avatar2.png
+public/assets/pdf/DanielMendez_CV.pdf
