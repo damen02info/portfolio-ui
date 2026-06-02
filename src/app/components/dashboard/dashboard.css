@@ -643,7 +643,6 @@
   background-color: #0f111a;
   border-radius: 12px;
   border: 1px solid rgba(51, 103, 145, 0.4);
-  /* Borde con el tono azul de PostgreSQL */
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -792,4 +791,107 @@
   background-color: rgba(245, 158, 11, 0.2);
   color: #f59e0b;
   border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* --- 5 SECTION: FOOTER / CONTACTO --- */
+.portfolio-footer {
+  margin-top: 80px;
+  padding: 60px 5% 30px 5%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-brand h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.footer-brand p {
+  color: var(--accent);
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.footer-links {
+  display: flex;
+  gap: 30px;
+}
+
+.footer-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+.footer-link:hover {
+  color: var(--text-main);
+  transform: translateY(-2px);
+}
+
+.footer-link:hover svg {
+  color: var(--accent);
+}
+
+.footer-bottom {
+  max-width: 1400px;
+  margin: 30px auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.footer-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-location svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* --- Responsive para el Footer --- */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
 }
