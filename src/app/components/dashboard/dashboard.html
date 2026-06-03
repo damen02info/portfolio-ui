@@ -198,27 +198,28 @@
 
     <div class="demo-summary-box">
       <p class="demo-main-idea">
-        Para demostrar mis competencias integrando
-        <strong>Desarrollo de Software (Full-stack)</strong> e
-        <strong>Infraestructura (DevOps)</strong>, he diseñado este panel de control interactivo. No
-        es una simulación estática: interactúa con un servidor real en producción.
+        Para demostrar mis competencias integrando <strong>Desarrollo Full-stack</strong> e <strong>Infraestructura
+          (DevOps)</strong>, he diseñado este laboratorio interactivo conectado a un servidor real en producción. Al
+        interactuar con el panel, disparas un pipeline real que alterará la estética de este portfolio de forma efímera.
       </p>
 
       <div class="demo-architecture-highlights">
         <div class="highlight-item">
-          <strong>Ecosistema Asíncrono:</strong> Angular 17+ gestiona la UI mediante
-          <em>Signals</em>, mientras que el backend en Spring Boot 3.x delega la carga pesada de
-          forma asíncrona (<code>@Async</code>).
+          <strong>1. Disparo Asíncrono:</strong>
+          Al pulsar un color, Angular 17+ bloquea la interfaz preventivamente mediante <em>Signals</em> y Spring Boot
+          3.x delega la carga pesada al instante de forma asíncrona (<code>@Async</code>) invocando la API de Jenkins.
         </div>
         <div class="highlight-item">
-          <strong>Streaming de Eventos (SSE):</strong> El pipeline de Jenkins escribe trazas
-          directamente en la base de datos, y un canal reactivo de <em>Server-Sent Events</em> las
-          empuja al navegador sin sobrecargar la red con WebSockets o Polling.
+          <strong>2. Pipeline & Streaming:</strong>
+          Jenkins ejecuta un script de automatización local que actualiza los registros en PostgreSQL. Las trazas del
+          proceso se interceptan y se transmiten en tiempo real a la terminal mediante <em>Server-Sent Events
+            (SSE)</em>.
         </div>
         <div class="highlight-item">
-          <strong>Ciclo de Vida Efímero:</strong> Una tarea programada (<code>@Scheduled</code>)
-          audita los cambios y ejecuta un rollback automático a los 5 minutos, emulando la
-          destrucción de infraestructura temporal en producción.
+          <strong>3. Mutación y Rollback:</strong>
+          Al finalizar con éxito, el fondo de este portfolio cambiará de color reactivamente sin recargar la página.
+          Tras 5 minutos, una tarea programada (<code>@Scheduled</code>) destruirá el entorno temporal restaurando el
+          estado original.
         </div>
       </div>
     </div>
