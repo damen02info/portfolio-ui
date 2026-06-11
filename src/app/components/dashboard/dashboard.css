@@ -556,8 +556,10 @@
 }
 
 .terminal-body {
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
-  flex: 1;
   font-family: 'Consolas', 'Courier New', monospace;
 }
 
