@@ -235,14 +235,17 @@
         </div>
         <div class="terminal-title">LOGS EN TIEMPO REAL - DeployStream</div>
       </div>
-      <div class="terminal-body">
-        <pre><code>daniel@deploystream:~$ _
-<br>
-[INFO] Recibiendo petición de cambio de tema a: Rojo
-[INFO] Iniciando pipeline de Jenkins...
-[INFO] Levantando contenedores efímeros...
-[INFO] Sincronizando estado con base de datos...</code></pre>
+
+      <div class="terminal-body" appAutoScroll>
+        <pre><code>daniel@deploystream:~$ 
+@for (log of logs(); track $index) {
+{{ log }}
+}
+@if (isLocked()) {
+<span class="blinking-cursor">_</span>
+}</code></pre>
       </div>
+
     </div>
 
     <div class="control-panel">
@@ -257,7 +260,10 @@
         </div>
       </div>
 
-      <button class="btn btn-primary btn-deploy">Ejecutar Despliegue</button>
+      <button class="btn btn-primary btn-deploy" (click)="onLaunchDeployment()" [disabled]="isLocked()">
+        {{ isLocked() ? 'Desplegando...' : 'Ejecutar Despliegue' }}
+      </button>
+
     </div>
   </div>
   <div class="db-monitor-wrapper">
