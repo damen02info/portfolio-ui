@@ -266,50 +266,9 @@
 
     </div>
   </div>
-  <div class="db-monitor-wrapper">
-    <div class="db-header">
-      <div class="db-title-group">
-        <span class="db-title">PostgreSQL Live Monitor — <span class="db-table-name">public.app_config</span></span>
-      </div>
-      <div class="db-status">
-        <span class="pulse-dot"></span>
-        Conectado
-      </div>
-    </div>
+  
+  <app-db-monitor></app-db-monitor>
 
-    <div class="db-table-container">
-      <table class="db-table">
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>config_key</th>
-            <th>config_value</th>
-            <th>last_modified</th>
-            <th>rollback_status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="td-number">1</td>
-            <td class="td-string">THEME_COLOR</td>
-            <td class="td-value">
-              <span class="color-indicator" style="background-color: #0088ff"></span> 'blue'
-            </td>
-            <td class="td-date">2026-06-02 02:05:10.000</td>
-            <td><span class="badge badge-stable">STABLE</span></td>
-          </tr>
-          <!-- Examples until back add -->
-          <tr>
-            <td class="td-number">2</td>
-            <td class="td-string">MAX_CONCURRENT_SESSIONS</td>
-            <td class="td-value td-number">150</td>
-            <td class="td-date">2026-05-20 14:30:00.000</td>
-            <td><span class="badge badge-stable">STABLE</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </section>
 
 <!-- Fifth section -->
