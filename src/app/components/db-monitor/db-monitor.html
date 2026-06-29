@@ -1,0 +1,40 @@
+<div class="db-monitor-wrapper">
+  <div class="db-header">
+    <div class="db-title-group">
+      <span class="db-title">PostgreSQL Live Monitor — <span class="db-table-name">public.app_config</span></span>
+    </div>
+    <div class="db-status">
+      <span class="pulse-dot"></span>
+      {{ statusLabel() }}
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <p class="db-empty-state">Cargando...</p>
+  } @else if (!configs().length) {
+    <p class="db-empty-state">No hay datos todavía.</p>
+  } @else {
+    <div class="db-table-container">
+      <table class="db-table">
+        <thead>
+          <tr>
+            <th>config_key</th>
+            <th>config_value</th>
+            <th>isLocked</th>
+            <th>lastModified</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of configs(); track row.configKey) {
+            <tr>
+              <td class="td-string">{{ row.configKey }}</td>
+              <td class="td-value">{{ formatValue(row.configValue) }}</td>
+              <td class="td-boolean">{{ row.isLocked ?? '—' }}</td>
+              <td>@if (row.lastModified) { <span class="badge">{{ row.lastModified }}</span> } @else { — }</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
