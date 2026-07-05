@@ -254,9 +254,14 @@
       <div class="panel-group">
         <label>Seleccionar variable de entorno:</label>
         <div class="color-options">
-          <button class="color-dot color-red" aria-label="Rojo"></button>
-          <button class="color-dot color-green" aria-label="Verde"></button>
-          <button class="color-dot color-blue" aria-label="Azul"></button>
+          <button class="color-dot color-red" aria-label="Rojo" (click)="selectColor('#ff4d4f')"
+            [class.selected]="selectedColor() === '#ff4d4f'"></button>
+
+          <button class="color-dot color-green" aria-label="Verde" (click)="selectColor('#52c41a')"
+            [class.selected]="selectedColor() === '#52c41a'"></button>
+
+          <button class="color-dot color-blue" aria-label="Azul" (click)="selectColor('#1890ff')"
+            [class.selected]="selectedColor() === '#1890ff'"></button>
         </div>
       </div>
 
@@ -266,7 +271,7 @@
 
     </div>
   </div>
-  
+
   <app-db-monitor></app-db-monitor>
 
 </section>

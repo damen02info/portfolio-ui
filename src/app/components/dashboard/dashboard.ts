@@ -2,7 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { Deployment } from '../../services/deployment';
 import { DeployRequest } from '../../services/deployment.interface';
 import { AutoScrollDirective } from '../../directives/auto-scroll.directive';
-import { DbMonitor } from "../db-monitor/db-monitor"; 
+import { DbMonitor } from '../db-monitor/db-monitor';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,12 +13,38 @@ import { DbMonitor } from "../db-monitor/db-monitor";
 })
 export class Dashboard {
   private readonly deploymentService = inject(Deployment);
+  private readonly http = inject(HttpClient);
+
+  private configEventSource: EventSource | null = null;
 
   // We use a signal to manage the locked state of the UI
   readonly isLocked = signal<boolean>(false);
 
   // We use a signal to store the logs received from the backend in real-time
   readonly logs = signal<string[]>([]);
+  readonly selectedColor = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.loadInitialColorFromDb();
+    this.openConfigStream();
+  }
+
+  ngOnDestroy(): void {
+    this.closeConfigStream();
+  }
+
+  selectColor(hex: string): void {
+    const normalized = (hex ?? '').trim();
+    if (this.isValidColor(normalized)) {
+      this.selectedColor.set(normalized);
+    } else {
+      console.warn('Color inválido (cliente):', normalized);
+    }
+  }
+
+  private isValidColor(candidate: string | null): boolean {
+    return !!candidate && /^#([A-Fa-f0-9]{6})$/.test(candidate);
+  }
 
   onLaunchDeployment(): void {
     // UI block to prevent running multiple deployments at the same time
@@ -34,15 +61,21 @@ export class Dashboard {
 
     const payload: DeployRequest = {
       project: 'portfolio-main-website',
-      deploymentId: deploymentIdGen
+      deploymentId: deploymentIdGen,
     };
+    const color = this.selectedColor();
+    if (color && this.isValidColor(color)) {
+      payload.color = color;
+    }
 
     console.log('Solicitando despliegue para el proyecto: ' + payload.project);
 
     // We subscribe to the Observable returned by the deployment service to handle the asynchronous response
     this.deploymentService.launchDeployment(payload).subscribe({
       next: (response) => {
-        console.log('Suscripción al stream de logs iniciada para el deployment ID: ' + deploymentIdGen,);
+        console.log(
+          'Suscripción al stream de logs iniciada para el deployment ID: ' + deploymentIdGen,
+        );
       },
       error: (errorResponse) => {
         if (errorResponse.status === 423) {
@@ -99,5 +132,98 @@ export class Dashboard {
         }
       },
     });
+  }
+
+  // This method loads the initial color from the database and applies it to the UI if valid
+  private loadInitialColorFromDb(): void {
+    this.http.get<unknown>('http://localhost:8080/api/config/COLOR').subscribe({
+      next: (payload) => {
+        const color = this.extractColorFromPayload(payload);
+        if (color) {
+          this.applyBackgroundColor(color);
+        }
+      },
+      error: () => {
+        console.debug('No se pudo leer el color inicial desde la BD');
+      },
+    });
+  }
+
+  private openConfigStream(): void {
+    if (typeof EventSource === 'undefined') {
+      return;
+    }
+
+    this.closeConfigStream();
+
+    this.configEventSource = new EventSource('http://localhost:8080/api/dashboard/stream');
+
+    this.configEventSource.addEventListener('config-update', (event: Event) => {
+      this.handleConfigEvent(event);
+    });
+
+    this.configEventSource.onmessage = (event: MessageEvent) => {
+      this.handleConfigEvent(event);
+    };
+  }
+
+  private closeConfigStream(): void {
+    if (this.configEventSource) {
+      try {
+        this.configEventSource.close();
+      } catch {}
+      this.configEventSource = null;
+    }
+  }
+
+  private handleConfigEvent(event: Event): void {
+    const messageEvent = event as MessageEvent;
+    const rawData = messageEvent.data;
+
+    let payload: unknown = rawData;
+
+    if (typeof rawData === 'string') {
+      try {
+        payload = JSON.parse(rawData);
+      } catch {
+        payload = rawData;
+      }
+    }
+
+    const color = this.extractColorFromPayload(payload);
+    if (color) {
+      this.applyBackgroundColor(color);
+    }
+  }
+
+  private extractColorFromPayload(payload: unknown): string | null {
+    if (typeof payload === 'string') {
+      return this.isValidColor(payload) ? payload : null;
+    }
+
+    if (!payload || typeof payload !== 'object') {
+      return null;
+    }
+
+    const record = payload as Record<string, unknown>;
+
+    const candidate =
+      record['configValue'] ?? record['config_value'] ?? record['value'] ?? record['color'];
+
+    if (typeof candidate === 'string' && this.isValidColor(candidate)) {
+      return candidate;
+    }
+
+    return null;
+  }
+
+  private applyBackgroundColor(color: string): void {
+    if (!this.isValidColor(color)) return;
+    // console.log('applyBackgroundColor called', color, new Error().stack); // Debugging line, can be removed in production
+
+    this.selectedColor.set(color);
+    document.documentElement.style.background = color;
+    document.body.style.background = color;
+    document.documentElement.style.setProperty('--deploy-bg', color);
   }
 }
