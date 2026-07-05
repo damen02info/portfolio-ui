@@ -1,6 +1,7 @@
 export interface DeployRequest {
   project: string;
   deploymentId: string;
+    color?: string;
 }
 
 export interface DeployResponse {

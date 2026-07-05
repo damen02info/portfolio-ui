@@ -878,18 +878,37 @@
   height: 16px;
 }
 
+.color-dot {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-dot:hover {
+  transform: scale(1.1);
+}
+
+.color-dot.selected {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+  transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
   .footer-container {
     flex-direction: column;
     align-items: flex-start;
     gap: 30px;
   }
-  
+
   .footer-links {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .footer-bottom {
     flex-direction: column;
     gap: 15px;
