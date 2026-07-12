@@ -48,7 +48,7 @@
           <h4>Grado en Ingeniería Informática</h4>
           <p>UOC (Universidad Abierta de Cataluña)</p>
         </div>
-        <span class="edu-date">En curso (Sep 2026)</span>
+        <span class="edu-date">En curso (2029)</span>
       </div>
 
       <div class="edu-card">
@@ -254,20 +254,18 @@
       <div class="panel-group">
         <label>Seleccionar variable de entorno:</label>
         <div class="color-options">
-          <button class="color-dot color-red" aria-label="Rojo" (click)="selectColor('#ff4d4f')"
-            [class.selected]="selectedColor() === '#ff4d4f'"></button>
-
-          <button class="color-dot color-green" aria-label="Verde" (click)="selectColor('#52c41a')"
-            [class.selected]="selectedColor() === '#52c41a'"></button>
-
-          <button class="color-dot color-blue" aria-label="Azul" (click)="selectColor('#1890ff')"
-            [class.selected]="selectedColor() === '#1890ff'"></button>
+          <button class="color-dot color-red" aria-label="Rojo" (click)="selectColor('#9e2f31')"
+            [class.selected]="selectedColor() === '#9e2f31'"></button>
         </div>
       </div>
 
-      <button class="btn btn-primary btn-deploy" (click)="onLaunchDeployment()" [disabled]="isLocked()">
+      <button class="btn btn-primary btn-deploy" (click)="onLaunchDeployment()" [disabled]="isLocked() || countdown() > 0">
         {{ isLocked() ? 'Desplegando...' : 'Ejecutar Despliegue' }}
       </button>
+
+      @if (countdown() > 0) {
+        <div class="countdown-timer">Entorno restaurándose en {{ countdown() }}s</div>
+      }
 
     </div>
   </div>

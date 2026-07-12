@@ -1,4 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnDestroy } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Deployment } from '../../services/deployment';
 import { DeployRequest } from '../../services/deployment.interface';
 import { AutoScrollDirective } from '../../directives/auto-scroll.directive';
@@ -11,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard {
+export class Dashboard implements OnDestroy {
   private readonly deploymentService = inject(Deployment);
   private readonly http = inject(HttpClient);
 
@@ -19,6 +21,8 @@ export class Dashboard {
 
   // We use a signal to manage the locked state of the UI
   readonly isLocked = signal<boolean>(false);
+  readonly countdown = signal<number>(0);
+  private countdownSubscription: Subscription | null = null;
 
   // We use a signal to store the logs received from the backend in real-time
   readonly logs = signal<string[]>([]);
@@ -31,6 +35,9 @@ export class Dashboard {
 
   ngOnDestroy(): void {
     this.closeConfigStream();
+    if (this.countdownSubscription) {
+      this.countdownSubscription.unsubscribe();
+    }
   }
 
   selectColor(hex: string): void {
@@ -104,29 +111,34 @@ export class Dashboard {
       next: (newLogLine) => {
         console.log('Nueva línea de log recibida: ' + newLogLine);
 
-        // We update the logs signal by appending the new log line to the existing logs array
         this.logs.update((currentLogs) => [...currentLogs, newLogLine]);
 
-        // If the log line indicates that the deployment has finished, we can unlock the UI
         if (
           newLogLine.includes('Pipeline finalizado') ||
           newLogLine.includes('SUCCESS') ||
           newLogLine.includes('FAILURE')
         ) {
-          console.log('Despliegue finalizado. Desbloqueando la UI.');
-          this.isLocked.set(false);
+          console.log('Despliegue finalizado.');
           isDeploymentComplete = true;
+
+          if (newLogLine.includes('SUCCESS')) {
+            setTimeout(() => {
+              console.log('Starting countdown now.');
+              this.startCountdown(10);
+            }, 1000);
+          } else {
+            this.isLocked.set(false);
+          }
         }
       },
       error: (err) => {
         console.error('Error en el stream de datos SSE (Conexión cerrada o interrumpida):', err);
-        this.isLocked.set(false); // Liberamos la UI ante catástrofes de red
+        this.isLocked.set(false);
         isDeploymentComplete = true;
       },
       complete: () => {
-        // If the stream completes without explicit completion message, unlock UI
         if (!isDeploymentComplete) {
-          console.log('Stream SSE completado. Desbloqueando la UI.');
+          console.log('Stream SSE completado.');
           this.isLocked.set(false);
           isDeploymentComplete = true;
         }
@@ -225,5 +237,25 @@ export class Dashboard {
     document.documentElement.style.background = color;
     document.body.style.background = color;
     document.documentElement.style.setProperty('--deploy-bg', color);
+  }
+
+  private startCountdown(seconds: number): void {
+    console.log(`Starting countdown for ${seconds} seconds.`);
+    this.countdown.set(seconds);
+    if (this.countdownSubscription) {
+      this.countdownSubscription.unsubscribe();
+    }
+
+    this.countdownSubscription = interval(1000)
+      .pipe(take(seconds + 1))
+      .subscribe(() => {
+        const currentCount = this.countdown();
+        if (currentCount > 0) {
+          this.countdown.set(currentCount - 1);
+        } else {
+          this.isLocked.set(false);
+          this.countdownSubscription?.unsubscribe();
+        }
+      });
   }
 }
