@@ -183,7 +183,7 @@
   background-color: var(--btn-secondary-bg);
   border-radius: 16px;
   padding: 25px;
-  min-height: 140px;
+  min-height: 155px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -211,6 +211,41 @@
   font-weight: 800;
   color: var(--text-main);
   align-self: flex-start;
+}
+
+.edu-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  width: 100%;
+}
+
+.edu-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  background-size: 85%;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.uoc-logo {
+  background-image: url('assets/logos/uoc_logo.webp');
+  background-size: 80%;
+}
+
+.iax-logo {
+  background-image: url('assets/logos/iax_logo.png');
+  background-size: 80%;
+}
+
+.alquerias-logo {
+  background-image: url('assets/logos/alquerias_logo.jpg');
+  background-size: 85%;
 }
 
 /* Righ column */
