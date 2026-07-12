@@ -122,10 +122,8 @@ export class Dashboard implements OnDestroy {
           isDeploymentComplete = true;
 
           if (newLogLine.includes('SUCCESS')) {
-            setTimeout(() => {
-              console.log('Starting countdown now.');
-              this.startCountdown(10);
-            }, 1000);
+            console.log('Detected SUCCESS, starting countdown.');
+            this.startCountdown(10);
           } else {
             this.isLocked.set(false);
           }
