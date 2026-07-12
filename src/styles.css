@@ -7,10 +7,10 @@ html, body {
   width: 100%;
   min-height: 100vh; 
   
-  background: linear-gradient(135deg, #05050f 0%, #111424 50%, #1e1b4b 100%);
+  background-color: var(--background-general-dark);
   
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color: #ffffff;
+  color: var(--text-main);
   
   background-attachment: fixed;
 }
@@ -20,9 +20,32 @@ html, body {
 }
 
 :root {
-  --text-main: #ffffff;
-  --text-muted: #a3a8b5;
-  --accent: #c75eb1;
-  --btn-primary-bg: #da6ebe;
-  --btn-secondary-bg: #4a3443;
+  --background-general-dark: #140d08;
+  --background-general-medium: #24150d;
+  --background-general-light: #2f1e12;
+
+  --text-main: #fff8ef;
+  --text-secondary: #e9cda8;
+
+  --accent-primary: #ffb865;
+  --accent-strong: #ff8f2e;
+  --accent-soft: #ffd8a8;
+
+  --btn-primary-bg: #f4b26b;
+  --btn-secondary-bg: #7a4b2f;
+  --btn-text-primary: #2b1507;
+
+  --border-soft-surface: rgba(255, 255, 255, 0.06);
+  --border-card-panel: rgba(245, 178, 107, 0.28);
+  --background-card-dark: rgba(122, 75, 47, 0.94);
+  --background-card-light: rgba(96, 57, 35, 0.96);
+
+  --text-main-rgb: 255, 248, 239; /* from #fff8ef */
+  --accent-primary-rgb: 255, 184, 101; /* from #ffb865 */
+  --background-general-dark-rgb: 20, 13, 8; /* from #140d08 */
+  --background-card-dark-rgb: 122, 75, 47; /* from rgba(122, 75, 47, 0.94) */
+  --btn-secondary-bg-rgb: 122, 75, 47;
+  --btn-primary-bg-rgb: 244, 178, 107;
+  --accent-strong-rgb: 255, 143, 46;
+  --border-soft-surface-rgb: 255, 255, 255;
 }
