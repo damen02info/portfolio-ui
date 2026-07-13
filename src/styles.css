@@ -40,10 +40,10 @@ html, body {
   --background-card-dark: rgba(122, 75, 47, 0.94);
   --background-card-light: rgba(96, 57, 35, 0.96);
 
-  --text-main-rgb: 255, 248, 239; /* from #fff8ef */
-  --accent-primary-rgb: 255, 184, 101; /* from #ffb865 */
-  --background-general-dark-rgb: 20, 13, 8; /* from #140d08 */
-  --background-card-dark-rgb: 122, 75, 47; /* from rgba(122, 75, 47, 0.94) */
+  --text-main-rgb: 255, 248, 239; 
+  --accent-primary-rgb: 255, 184, 101; 
+  --background-general-dark-rgb: 20, 13, 8; 
+  --background-card-dark-rgb: 122, 75, 47; 
   --btn-secondary-bg-rgb: 122, 75, 47;
   --btn-primary-bg-rgb: 244, 178, 107;
   --accent-strong-rgb: 255, 143, 46;

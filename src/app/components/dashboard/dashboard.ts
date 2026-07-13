@@ -20,7 +20,8 @@ export class Dashboard implements OnDestroy {
   private configEventSource: EventSource | null = null;
 
   // We use a signal to manage the locked state of the UI
-  readonly isLocked = signal<boolean>(false);
+  // Cambiar false por true
+  readonly isLocked = signal<boolean>(true);
   readonly countdown = signal<number>(0);
   private countdownSubscription: Subscription | null = null;
 
@@ -31,6 +32,15 @@ export class Dashboard implements OnDestroy {
   ngOnInit(): void {
     this.loadInitialColorFromDb();
     this.openConfigStream();
+
+    const cooldown = sessionStorage.getItem('deploy_cooldown');
+    const timeRemaining = cooldown ? Math.ceil((parseInt(cooldown, 10) - Date.now()) / 1000) : 0;
+
+    if (timeRemaining > 0) {
+      this.startCountdown(timeRemaining);
+    } else {
+      this.checkServerStatus();
+    }
   }
 
   ngOnDestroy(): void {
@@ -239,7 +249,12 @@ export class Dashboard implements OnDestroy {
 
   private startCountdown(seconds: number): void {
     console.log(`Starting countdown for ${seconds} seconds.`);
+
+    sessionStorage.setItem('deploy_cooldown', (Date.now() + seconds * 1000).toString());
+
+    this.isLocked.set(true);
     this.countdown.set(seconds);
+
     if (this.countdownSubscription) {
       this.countdownSubscription.unsubscribe();
     }
@@ -252,8 +267,25 @@ export class Dashboard implements OnDestroy {
           this.countdown.set(currentCount - 1);
         } else {
           this.isLocked.set(false);
+          sessionStorage.removeItem('deploy_cooldown');
           this.countdownSubscription?.unsubscribe();
         }
       });
+  }
+
+  private checkServerStatus(): void {
+    this.http.get<boolean>('http://localhost:8080/api/config/status/lock').subscribe({
+      next: (isLockedResponse) => {
+        this.isLocked.set(isLockedResponse);
+
+        if (!isLockedResponse) {
+          sessionStorage.removeItem('deploy_cooldown');
+        }
+      },
+      error: (err) => {
+        console.error('Error al verificar el estado del candado', err);
+        this.isLocked.set(true);
+      },
+    });
   }
 }

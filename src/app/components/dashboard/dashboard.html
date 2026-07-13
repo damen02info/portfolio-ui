@@ -268,12 +268,14 @@
         </div>
       </div>
 
-      <button class="btn btn-primary btn-deploy" (click)="onLaunchDeployment()" [disabled]="isLocked() || countdown() > 0">
-        {{ isLocked() ? 'Desplegando...' : 'Ejecutar Despliegue' }}
+      @if (!isLocked() && countdown() === 0) {
+      <button class="btn btn-primary btn-deploy" (click)="onLaunchDeployment()">
+        Ejecutar Despliegue
       </button>
+      }
 
       @if (countdown() > 0) {
-        <div class="countdown-timer">Entorno restaurándose en {{ countdown() }}s</div>
+      <div class="countdown-timer">Entorno restaurándose en {{ countdown() }}s</div>
       }
 
     </div>
