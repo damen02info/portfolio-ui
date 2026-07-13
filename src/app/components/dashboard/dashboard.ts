@@ -6,6 +6,8 @@ import { DeployRequest } from '../../services/deployment.interface';
 import { AutoScrollDirective } from '../../directives/auto-scroll.directive';
 import { DbMonitor } from '../db-monitor/db-monitor';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnDestroy {
+  private baseUrl = environment.apiUrl;
   private readonly deploymentService = inject(Deployment);
   private readonly http = inject(HttpClient);
 
@@ -156,7 +159,7 @@ export class Dashboard implements OnDestroy {
 
   // This method loads the initial color from the database and applies it to the UI if valid
   private loadInitialColorFromDb(): void {
-    this.http.get<unknown>('http://localhost:8080/api/config/COLOR').subscribe({
+    this.http.get<unknown>(`${this.baseUrl}/config/COLOR`).subscribe({
       next: (payload) => {
         const color = this.extractColorFromPayload(payload);
         if (color) {
@@ -176,7 +179,7 @@ export class Dashboard implements OnDestroy {
 
     this.closeConfigStream();
 
-    this.configEventSource = new EventSource('http://localhost:8080/api/dashboard/stream');
+    this.configEventSource = new EventSource(`${this.baseUrl}/dashboard/stream`);
 
     this.configEventSource.addEventListener('config-update', (event: Event) => {
       this.handleConfigEvent(event);
@@ -239,7 +242,6 @@ export class Dashboard implements OnDestroy {
 
   private applyBackgroundColor(color: string): void {
     if (!this.isValidColor(color)) return;
-    // console.log('applyBackgroundColor called', color, new Error().stack); // Debugging line, can be removed in production
 
     this.selectedColor.set(color);
     document.documentElement.style.background = color;
@@ -274,7 +276,7 @@ export class Dashboard implements OnDestroy {
   }
 
   private checkServerStatus(): void {
-    this.http.get<boolean>('http://localhost:8080/api/config/status/lock').subscribe({
+    this.http.get<boolean>(`${this.baseUrl}/config/status/lock`).subscribe({
       next: (isLockedResponse) => {
         this.isLocked.set(isLockedResponse);
 

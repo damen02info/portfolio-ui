@@ -1,5 +1,6 @@
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 type ConfigRow = {
   configKey: string;
@@ -14,6 +15,7 @@ type ConfigRow = {
   styleUrl: './db-monitor.css',
 })
 export class DbMonitor implements OnInit, OnDestroy {
+  private baseUrl = environment.apiUrl;
   private readonly http = inject(HttpClient);
   private eventSource: EventSource | null = null;
 
@@ -34,7 +36,7 @@ export class DbMonitor implements OnInit, OnDestroy {
   private loadInitial(): void {
     this.isLoading.set(true);
 
-    this.http.get<unknown>('http://localhost:8080/api/config/all').subscribe({
+    this.http.get<unknown>(`${this.baseUrl}/config/all`).subscribe({
       next: (payload) => {
         const rows = this.normalizeArray(payload);
         this.configs.set(rows);
@@ -59,7 +61,7 @@ export class DbMonitor implements OnInit, OnDestroy {
 
     this.closeStream();
 
-    this.eventSource = new EventSource('http://localhost:8080/api/dashboard/stream');
+    this.eventSource = new EventSource(`${this.baseUrl}/dashboard/stream`);
 
     const handleIncomingEvent = (event: Event): void => {
       try {

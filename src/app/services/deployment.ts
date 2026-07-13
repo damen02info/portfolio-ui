@@ -2,12 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { DeployRequest, DeployResponse } from './deployment.interface';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Deployment {
-  private readonly apiUrl = 'http://localhost:8080/api/deploy';
+  private baseUrl = environment.apiUrl;
+  private readonly apiUrl = `${this.baseUrl}/deploy`;
 
   private readonly http = inject(HttpClient);
 
