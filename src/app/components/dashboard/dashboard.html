@@ -6,10 +6,14 @@
     <h3 class="role">Backend Developer & DevOps Junior</h3>
 
     <p class="description">
-      Especialista Backend (Java/Spring Boot) con una visión integral del ciclo de vida del software. Más allá del
-      desarrollo, me involucro en la arquitectura, integración y despliegue, aplicando cultura DevOps para conectar
-      sistemas complejos. Acostumbrado a la presión tras mi etapa en Ámsterdam, actualmente escalo soluciones críticas
-      en el sector aeroportuario mientras curso Ingeniería Informática.
+      Desarrollador especializado en backend, bases de datos y administración de servidores. Mi objetivo es entender y
+      conectar el
+      código con la infraestructura de forma eficiente.
+
+      Combino la experiencia en sistemas y desarrollo de aplicaciones en mi día a día actual con mi experiencia previa
+      en NTT
+      Data y PcComponentes. Estudiante de Ingeniería Informática en la UOC y acostumbrado a resolver incidencias en
+      caliente y bajo entornos de presión.
     </p>
 
     <div class="action-buttons">
@@ -155,6 +159,23 @@
   <h2 class="section-title">Experiencia</h2>
 
   <div class="experience-list">
+
+    <div class="exp-row">
+      <div class="exp-logo-col offset-logo">
+        <div class="logo-diamond logo-vz"></div>
+      </div>
+      <div class="exp-text-col">
+        <span class="exp-date">Jun 2026 - Actualmente</span>
+        <h4 class="exp-role">Programador y Sistemas — Virtual Zone</h4>
+        <p class="exp-desc">
+          Gestión de la infraestructura local y los servidores de realidad virtual, garantizando la operatividad de los
+          sistemas y resolviendo incidencias de red y hardware. En paralelo, desarrollo herramientas
+          internas con Java y Angular para la monitorización centralizada de las salas de juego y automatizo las
+          actualizaciones de software en producción.
+        </p>
+      </div>
+    </div>
+
     <div class="exp-row">
       <div class="exp-logo-col">
         <div class="logo-diamond logo-ntt"></div>
@@ -163,9 +184,9 @@
         <span class="exp-date">Feb 2026 - Jun 2026</span>
         <h4 class="exp-role">Backend Developer Jr - NTT Data</h4>
         <p class="exp-desc">
-          Desarrollo Backend con Java y Spring Boot para aplicaciones críticas (AENA), optimizando
-          la escalabilidad y estabilidad del software. Diseño de especificaciones con Swagger (YAML)
-          e integración de servicios mediante middleware WSO2 y MuleSoft.
+          Desarrollo backend con Java y Spring Boot para aplicaciones críticas de AENA. Diseñé especificaciones OpenAPI
+          (Swagger/YAML), integré servicios mediante middleware WSO2 y MuleSoft, y gestioné consultas SQL en Oracle DB
+          junto con despliegues en WebLogic a través de los entornos de desarrollo, preproducción y producción.
         </p>
       </div>
     </div>
@@ -178,57 +199,50 @@
         <span class="exp-date">Jul 2025 - Feb 2026</span>
         <h4 class="exp-role">Técnico de montaje - PcComponentes</h4>
         <p class="exp-desc">
-          Montaje y configuración avanzada de equipos de alto rendimiento, asegurando la
-          compatibilidad óptima entre hardware y software en un entorno de alto volumen.
+          Ensamblaje y optimización avanzada de equipos de alto rendimiento, incluyendo sistemas de refrigeración
+          líquida personalizados. Me encargué del diagnóstico de compatibilidad de hardware, la resolución de conflictos
+          de firmware y la configuración y optimización de sistemas operativos (Windows/Linux) bajo estrictas pruebas de
+          estrés.
         </p>
       </div>
     </div>
 
-    <div class="exp-row">
-      <div class="exp-logo-col">
-        <div class="logo-diamond logo-spider"></div>
-      </div>
-      <div class="exp-text-col">
-        <span class="exp-date">Feb 2021 - Dic 2021</span>
-        <h4 class="exp-role">Técnico de Mantenimiento - SpiderSystem</h4>
-        <p class="exp-desc">
-          Diagnóstico lógico y resolución de incidencias de software/hardware para clientes finales
-          y PYMES. Configuración de redes y sistemas TPV.
-        </p>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- Fourth section -->
 <section id="demo-section" class="demo-section">
   <div class="demo-header">
-    <h2 class="section-title">DeployStream: Laboratorio de Entornos Efímeros</h2>
+    <h2 class="section-title">Deploy Lab: Demostración de despligue </h2>
 
     <div class="demo-summary-box">
       <p class="demo-main-idea">
-        Para demostrar mis competencias integrando <strong>Desarrollo Full-stack</strong> e <strong>Infraestructura
-          (DevOps)</strong>, he diseñado este laboratorio interactivo conectado a un servidor real en producción. Al
-        interactuar con el panel, disparas un pipeline real que alterará la estética de este portfolio de forma efímera.
+        <strong><i>Importante: Nada de esta demostración es una simulación. Todo se despliega, modifica y ejecuta sobre
+          entornos reales en producción.</i></strong>
+        <br><br>
+        He diseñado este laboratorio interactivo para mostrar cómo se conectan el desarrollo y la infraestructura en un
+        entorno real. Al interactuar con el panel, disparas un job real en Jenkins que modificará la estética de este
+        portfolio de forma efímera. Tanto los logs como la tabla PostgreSQL están conectados en tiempo real.
       </p>
 
       <div class="demo-architecture-highlights">
         <div class="highlight-item">
           <strong>1. Disparo Asíncrono:</strong>
-          Al pulsar un color, Angular 17+ bloquea la interfaz preventivamente mediante <em>Signals</em> y Spring Boot
-          3.x delega la carga pesada al instante de forma asíncrona (<code>@Async</code>) invocando la API de Jenkins.
+          Al elegir un color, la interfaz en Angular bloquea preventivamente las acciones mediante <em>Signals</em>. En
+          el backend, Spring Boot delega la carga pesada de forma asíncrona (<code>@Async</code>) llamando a la API de
+          Jenkins para no bloquear al usuario.
         </div>
         <div class="highlight-item">
-          <strong>2. Pipeline & Streaming:</strong>
-          Jenkins ejecuta un script de automatización local que actualiza los registros en PostgreSQL. Las trazas del
-          proceso se interceptan y se transmiten en tiempo real a la terminal mediante <em>Server-Sent Events
-            (SSE)</em>.
+          <strong>2. Escucha de Logs en Tiempo Real:</strong>
+          Jenkins ejecuta el pipeline que actualiza la configuración en PostgreSQL. El backend se conecta en directo al
+          servidor para capturar estas trazas y transmitirlas al instante a tu terminal mediante un canal de
+          <em>Server-Sent Events (SSE)</em>.
         </div>
         <div class="highlight-item">
-          <strong>3. Mutación y Rollback:</strong>
-          Al finalizar con éxito, el fondo de este portfolio cambiará de color reactivamente sin recargar la página.
-          Tras 5 minutos, una tarea programada (<code>@Scheduled</code>) destruirá el entorno temporal restaurando el
-          estado original.
+          <strong>3. Monitorización de BD y Rollback:</strong>
+          Al finalizar, el portfolio cambia de color de forma reactiva. Un hilo en Java inicia un contador de
+          destrucción; puedes monitorizar en tiempo real en la tabla de arriba cómo varían los registros de la base de
+          datos hasta que el entorno expira y vuelve al estado original.
         </div>
       </div>
     </div>
@@ -242,7 +256,7 @@
           <span class="min-btn"></span>
           <span class="max-btn"></span>
         </div>
-        <div class="terminal-title">LOGS EN TIEMPO REAL - DeployStream</div>
+        <div class="terminal-title">LOGS EN TIEMPO REAL - DeployStream & Jenkins Job</div>
       </div>
 
       <div class="terminal-body" appAutoScroll>

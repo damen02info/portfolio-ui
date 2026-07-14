@@ -8,7 +8,6 @@ import { DbMonitor } from '../db-monitor/db-monitor';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-
 @Component({
   selector: 'app-dashboard',
   imports: [AutoScrollDirective, DbMonitor],
@@ -136,7 +135,9 @@ export class Dashboard implements OnDestroy {
 
           if (newLogLine.includes('SUCCESS')) {
             console.log('Detected SUCCESS, starting countdown.');
-            this.startCountdown(10);
+            setTimeout(() => {
+              this.startCountdown(10);
+            }, 1000);
           } else {
             this.isLocked.set(false);
           }
