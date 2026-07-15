@@ -532,12 +532,335 @@
   font-size: 0.95rem;
 }
 
+
+
 @media (max-width: 900px) {
+  .hero-section {
+    flex-direction: column;
+    padding: 60px 5%;
+    gap: 30px;
+  }
+
+  .hero-content {
+    text-align: center;
+    max-width: 80%;
+  }
+
+  .hero-avatar {
+    justify-content: center;
+  }
+
+  .greeting {
+    font-size: 1.5rem;
+  }
+
+  .name {
+    font-size: 3rem;
+  }
+
+  .role {
+    font-size: 1.1rem;
+    margin: 8px 0 15px 0;
+  }
+
+  .description {
+    font-size: 0.9rem;
+    max-width: 80%;
+    margin: 0 auto 30px auto;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .top-row {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .avatar-circle {
+    width: 380px;
+    height: 380px;
+    border: 10px solid var(--background-general-medium);
+  }
+
+  .education-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .education-timeline {
+    height: auto;
+  }
+
+  .skills-wrapper {
+    align-items: center;
+  }
+
+  .skills-group {
+    max-width: 600px;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .exp-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .exp-logo-col {
+    width: auto;
+    justify-content: center;
+  }
+
+  .offset-logo {
+    justify-content: center;
+  }
+
+  .logo-diamond {
+    margin-top: 0;
+    width: 100px;
+    height: 100px;
+  }
+
+  .exp-text-col {
+    align-items: center;
+    text-align: center;
+  }
+
+  .exp-role {
+    font-size: 1.1rem;
+  }
+
+  .exp-date {
+    font-size: 0.85rem;
+  }
+
+  .exp-desc {
+    font-size: 0.9rem;
+    max-width: 90%;
+  }
+
+  .demo-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .terminal-window {
+    width: 100%;
+    flex: none;
+  }
+
+  .control-panel {
+    width: 100%;
+    flex: none;
+  }
+
+  .demo-main-idea {
+    font-size: 1.05rem;
+  }
+
+  .highlight-item {
+    font-size: 0.85rem;
+  }
+
   .demo-architecture-highlights {
     flex-direction: column;
     gap: 15px;
   }
 }
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 40px 5%;
+  }
+
+  .greeting {
+    font-size: 1.2rem;
+  }
+
+  .name {
+    font-size: 2.5rem;
+  }
+
+  .role {
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 0.85rem;
+    margin-bottom: 25px;
+  }
+
+  .avatar-circle {
+    width: 280px;
+    height: 280px;
+    border: 8px solid var(--background-general-medium);
+  }
+
+  .action-buttons .btn {
+    padding: 12px 15px;
+    font-size: 0.85rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  .edu-info h4 {
+    font-size: 1rem;
+  }
+
+  .edu-info p {
+    font-size: 0.8rem;
+  }
+
+  .edu-date {
+    font-size: 0.9rem;
+  }
+
+  .edu-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .skills-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .skill-circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .skill-item span {
+    font-size: 0.75rem;
+  }
+
+  .experience-section {
+    padding: 40px 5%;
+  }
+
+  .exp-role {
+    font-size: 1rem;
+  }
+
+  .exp-date {
+    font-size: 0.8rem;
+  }
+
+  .exp-desc {
+    font-size: 0.85rem;
+  }
+
+  .logo-diamond {
+    width: 80px;
+    height: 80px;
+  }
+
+  .demo-section {
+    padding: 40px 5%;
+  }
+
+  .terminal-body {
+    height: 200px;
+    padding: 15px;
+  }
+
+  .terminal-body code {
+    font-size: 0.85rem;
+  }
+
+  .control-panel {
+    padding: 30px 20px;
+  }
+
+  .panel-title {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .panel-group {
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .panel-group label {
+    font-size: 0.9rem;
+  }
+
+  .color-options {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .color-dot {
+    width: 35px;
+    height: 35px;
+  }
+
+  .btn-deploy {
+    padding: 15px 18px;
+    font-size: 0.9rem;
+  }
+
+  .countdown-timer {
+    font-size: 0.8rem;
+  }
+
+  .portfolio-footer {
+    padding: 30px 5% 20px 5%;
+  }
+
+  .footer-brand h3 {
+    font-size: 1.3rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.85rem;
+  }
+
+  .footer-links {
+    gap: 15px;
+  }
+
+  .footer-link {
+    font-size: 0.85rem;
+  }
+
+  .footer-link svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .footer-bottom {
+    font-size: 0.75rem;
+  }
+
+  .footer-location svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+
 
 .terminal-window {
   flex: 1.5;
@@ -948,6 +1271,10 @@
   .footer-bottom {
     flex-direction: column;
     gap: 15px;
+    align-items: flex-start;
+  }
+
+  .footer-container {
     align-items: flex-start;
   }
 }
