@@ -1,0 +1,38 @@
+name: CI/CD Angular Portfolio
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Angular (Production)
+        run: npm run build -- --configuration=production
+
+      - name: Compress Build Output
+        run: |
+          # Navega a la carpeta generada por Angular (ajusta si es necesario)
+          cd dist/*/browser 2>/dev/null || cd dist/*
+          tar -czf ../../../dist.tar.gz .
+
+      - name: Trigger n8n Deployment Webhook
+        run: |
+          curl -X POST "${{ secrets.WEBHOOK_URL }}" \
+            -H "X-API-KEY: ${{ secrets.DEPLOY_WEBHOOK_TOKEN }}" \
+            -F "data=@dist.tar.gz"
