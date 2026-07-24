@@ -1,4 +1,4 @@
-<!-- First section -->
+<!-- Hero section -->
 <section class="hero-section">
   <div class="hero-content">
     <h2 class="greeting">Encantado, soy</h2>
@@ -41,7 +41,7 @@
   </div>
 </section>
 
-<!-- Second section -->
+<!-- Education section -->
 <section class="education-section">
   <h2 class="section-title">Educación y aprendizaje</h2>
 
@@ -154,7 +154,7 @@
   </div>
 </section>
 
-<!-- Third section -->
+<!-- Experience section -->
 <section class="experience-section">
   <h2 class="section-title">Experiencia</h2>
 
@@ -210,7 +210,138 @@
   </div>
 </section>
 
-<!-- Fourth section -->
+<!-- Projects Section -->
+<section class="projects-section">
+  <h2 class="section-title">Proyectos</h2>
+  <p class="projects-intro">
+    Un recorrido por mis proyectos personales. En cada uno de ellos busco abarcar el ciclo completo: desde el desarrollo
+    frontend y backend hasta la automatización de su despliegue. Mi objetivo es siempre integrar alguna tecnología o
+    enfoque nuevo para seguir ampliando mi stack.
+  </p>
+
+  <div class="projects-container">
+    <!-- Home Lab -->
+    <div class="project-category">
+      <h3 class="category-title">Home Lab & Infraestructura Personal</h3>
+      <div class="project-details">
+        <p>
+          Gestiono mi propio servidor local (Home Lab) donde alojo tanto proyectos de desarrollo (servidores Nginx,
+          builds de Java, Angular y Flutter, Jenkins o bases de datos) como servicios de uso personal, incluyendo
+          automatización
+          de flujos de trabajo con N8N y gestión multimedia. La infraestructura mantiene un fuerte enfoque en la
+          seguridad, implementando proxies inversos, limitación de peticiones (rate limiting) y capas de protección
+          avanzadas y privadas para garantizar la integridad y alta disponibilidad de todo el entorno.
+        </p>
+
+        <div class="carousel-wrapper homeLab">
+          <button class="carousel-button prev" (click)="prevSlide('homeLab')" aria-label="Anterior">&#10094;</button>
+
+          <div class="carousel">
+            <div class="carousel-slides" [style.transform]="'translateX(-' + (carouselIndex.homeLab() * 100) + '%)'">
+              @for (image of projectImages.homeLab; track $index) {
+              <img [src]="image" alt="Home Lab Screenshot {{ $index + 1 }}" class="project-image carousel-slide">
+              }
+            </div>
+            <div class="carousel-dots">
+              @for (image of projectImages.homeLab; track $index) {
+              <span class="dot" [class.active]="carouselIndex.homeLab() === $index"
+                (click)="goToSlide('homeLab', $index)"></span>
+              }
+            </div>
+          </div>
+
+          <button class="carousel-button next" (click)="nextSlide('homeLab')" aria-label="Siguiente">&#10095;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apliccations -->
+    <div class="project-category">
+      <h3 class="category-title">Aplicaciones Destacadas</h3>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <h4 class="project-title">Contador de Calorías con IA (Flutter)</h4>
+          <p class="project-description">
+            MVP en producción para el seguimiento nutricional y reconocimiento de alimentos mediante IA. Es una prueba
+            de concepto exitosa que integra un frontend en Flutter con un backend orquestado mediante N8N y PostgreSQL.
+            El desarrollo sirvió como un entorno real para evaluar, aprender e integrar OpenCode de forma efectiva en mi
+            stack tecnológico. La aplicación mantiene altos estándares de privacidad, incorporando autenticación segura,
+            cuentas persistentes y cifrado completo de la información.</p>
+          <div class="carousel-wrapper flutter">
+            <button class="carousel-button prev" (click)="prevSlide('flutter')" aria-label="Anterior">&#10094;</button>
+
+            <div class="carousel">
+              <div class="carousel-slides" [style.transform]="'translateX(-' + (carouselIndex.flutter() * 100) + '%)'">
+                @for (image of projectImages.flutter; track $index) {
+                <img [src]="image" alt="Flutter Screenshot {{ $index + 1 }}" class="project-image carousel-slide">
+                }
+              </div>
+              <div class="carousel-dots">
+                @for (image of projectImages.flutter; track $index) {
+                <span class="dot" [class.active]="carouselIndex.flutter() === $index"
+                  (click)="goToSlide('flutter', $index)"></span>
+                }
+              </div>
+            </div>
+
+            <button class="carousel-button next" (click)="nextSlide('flutter')" aria-label="Siguiente">&#10095;</button>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h4 class="project-title">DeployStream (Este Portfolio)</h4>
+          <p class="project-description">
+            Este portfolio es una demostración práctica de arquitectura y automatización. Más allá del stack tecnológico
+            empleado (Angular, Java en SpringBoot y PostgreSQL), el proyecto destaca por la compleja orquestación de un
+            pipeline
+            CI/CD completo mediante Jenkins. Todo el sistema está configurado para operar en un entorno real,
+            permitiendo despliegues automatizados, aplicación de cambios en caliente y una demostración interactiva
+            totalmente funcional.
+          </p>
+
+          <div class="carousel-wrapper deploystream">
+            <button class="carousel-button prev" (click)="prevSlide('deployStream')"
+              aria-label="Anterior">&#10094;</button>
+
+            <div class="carousel">
+              <div class="carousel-slides"
+                [style.transform]="'translateX(-' + (carouselIndex.deployStream() * 100) + '%)'">
+                @for (image of projectImages.deployStream; track $index) {
+                <img [src]="image" alt="DeployStream Screenshot {{ $index + 1 }}" class="project-image carousel-slide">
+                }
+              </div>
+              <div class="carousel-dots">
+                @for (image of projectImages.deployStream; track $index) {
+                <span class="dot" [class.active]="carouselIndex.deployStream() === $index"
+                  (click)="goToSlide('deployStream', $index)"></span>
+                }
+              </div>
+            </div>
+
+            <button class="carousel-button next" (click)="nextSlide('deployStream')"
+              aria-label="Siguiente">&#10095;</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Ideas -->
+    <div class="project-category">
+      <h3 class="category-title">Proyectos Futuros</h3>
+      <p class="future-projects-text">
+        Próximamente estaré trabajando en una aplicación de gestión para profesionales del sector eléctrico.
+        Desarrollaré el frontend con React y Tailwind CSS, aprovecharé este proyecto para integrar, poner a prueba y
+        evaluar
+        Supabase como backend.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Demo section -->
 <section id="demo-section" class="demo-section">
   <div class="demo-header">
     <h2 class="section-title">Deploy Lab: Demostración de despligue </h2>
@@ -218,7 +349,7 @@
     <div class="demo-summary-box">
       <p class="demo-main-idea">
         <strong><i>Importante: Nada de esta demostración es una simulación. Todo se despliega, modifica y ejecuta sobre
-          entornos reales en producción.</i></strong>
+            entornos reales en producción.</i></strong>
         <br><br>
         He diseñado este laboratorio interactivo para mostrar cómo se conectan el desarrollo y la infraestructura en un
         entorno real. Al interactuar con el panel, disparas un job real en Jenkins que modificará la estética de este
@@ -299,7 +430,7 @@
 
 </section>
 
-<!-- Fifth section -->
+<!-- Footer section -->
 <footer id="portfolio-footer" class="portfolio-footer">
   <div class="footer-container">
     <div class="footer-brand">
