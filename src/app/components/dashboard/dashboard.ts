@@ -1,39 +1,79 @@
-import { Component, inject, signal, OnDestroy } from '@angular/core';
+import { Component, inject, signal, OnDestroy, OnInit, WritableSignal } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+
 import { Deployment } from '../../services/deployment';
 import { DeployRequest } from '../../services/deployment.interface';
 import { AutoScrollDirective } from '../../directives/auto-scroll.directive';
 import { DbMonitor } from '../db-monitor/db-monitor';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+
+type ProjectId = 'flutter' | 'deployStream' | 'homeLab';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [AutoScrollDirective, DbMonitor],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard implements OnDestroy {
-  private baseUrl = environment.apiUrl;
+export class Dashboard implements OnInit, OnDestroy {
+
+  // Propiertes
+
+  private readonly baseUrl = environment.apiUrl;
   private readonly deploymentService = inject(Deployment);
   private readonly http = inject(HttpClient);
 
   private configEventSource: EventSource | null = null;
+  private countdownSubscription?: Subscription;
 
-  // We use a signal to manage the locked state of the UI
-  // Cambiar false por true
-  readonly isLocked = signal<boolean>(true);
-  readonly countdown = signal<number>(0);
-  private countdownSubscription: Subscription | null = null;
-
-  // We use a signal to store the logs received from the backend in real-time
+  readonly isLocked = signal(true);
+  readonly countdown = signal(0);
   readonly logs = signal<string[]>([]);
   readonly selectedColor = signal<string | null>(null);
+
+  readonly projectImages: Record<ProjectId, string[]> = {
+    flutter: [
+      '/assets/images/proyects/macroai/MacroAI_1.png',
+      '/assets/images/proyects/macroai/MacroAI_2.png',
+      '/assets/images/proyects/macroai/MacroAI_3.png',
+    ],
+    deployStream: [
+      '/assets/images/proyects/portfolio/DeployStream_1.png',
+      '/assets/images/proyects/portfolio/DeployStream_2.png',
+      '/assets/images/proyects/portfolio/DeployStream_3.png',
+    ],
+    homeLab: [
+      '/assets/images/proyects/homelab/homelab_1.png',
+      '/assets/images/proyects/homelab/homelab_2.png',
+      '/assets/images/proyects/homelab/homelab_3.png',
+    ],
+  };
+
+  readonly carouselIndex: Record<ProjectId, WritableSignal<number>> = {
+    flutter: signal(0),
+    deployStream: signal(0),
+    homeLab: signal(0),
+  };
+
+  private autoSlideIntervals: Record<ProjectId, number | undefined> = {
+    homeLab: undefined,
+    flutter: undefined,
+    deployStream: undefined,
+  };
+
+
+  // Lyfecycle
 
   ngOnInit(): void {
     this.loadInitialColorFromDb();
     this.openConfigStream();
+
+    this.startAutoSlide('flutter');
+    this.startAutoSlide('deployStream');
+    this.startAutoSlide('homeLab');
 
     const cooldown = sessionStorage.getItem('deploy_cooldown');
     const timeRemaining = cooldown ? Math.ceil((parseInt(cooldown, 10) - Date.now()) / 1000) : 0;
@@ -47,10 +87,15 @@ export class Dashboard implements OnDestroy {
 
   ngOnDestroy(): void {
     this.closeConfigStream();
-    if (this.countdownSubscription) {
-      this.countdownSubscription.unsubscribe();
-    }
+    this.countdownSubscription?.unsubscribe();
+
+    this.stopAutoSlide('flutter');
+    this.stopAutoSlide('deployStream');
+    this.stopAutoSlide('homeLab');
   }
+
+
+  // Interface events
 
   selectColor(hex: string): void {
     const normalized = (hex ?? '').trim();
@@ -61,42 +106,35 @@ export class Dashboard implements OnDestroy {
     }
   }
 
-  private isValidColor(candidate: string | null): boolean {
-    return !!candidate && /^#([A-Fa-f0-9]{6})$/.test(candidate);
-  }
-
   onLaunchDeployment(): void {
-    // UI block to prevent running multiple deployments at the same time
     this.isLocked.set(true);
-    // Clear previous logs
     this.logs.set([]);
 
     const deploymentIdGen = crypto.randomUUID();
-    console.log('Generado el nuevo ID de despliegue: ' + deploymentIdGen);
+    console.log(`Generado el nuevo ID de despliegue: ${deploymentIdGen}`);
 
-    // Start listening to logs immediately to catch early messages
     this.subscribeToLogs(deploymentIdGen);
-    console.log('Suscripcion iniciada al stream con ID de despliegue: ' + deploymentIdGen);
+    console.log(`Suscripción iniciada al stream con ID de despliegue: ${deploymentIdGen}`);
 
     const payload: DeployRequest = {
       project: 'portfolio-main-website',
       deploymentId: deploymentIdGen,
     };
+
     const color = this.selectedColor();
     if (color && this.isValidColor(color)) {
       payload.color = color;
     }
 
-    console.log('Solicitando despliegue para el proyecto: ' + payload.project);
+    console.log(`Solicitando despliegue para el proyecto: ${payload.project}`);
 
-    // We subscribe to the Observable returned by the deployment service to handle the asynchronous response
     this.deploymentService.launchDeployment(payload).subscribe({
-      next: (response) => {
+      next: () => {
         console.log(
-          'Suscripción al stream de logs iniciada para el deployment ID: ' + deploymentIdGen,
+          `Suscripción al stream de logs iniciada para el deployment ID: ${deploymentIdGen}`,
         );
       },
-      error: (errorResponse) => {
+      error: (errorResponse: HttpErrorResponse) => {
         if (errorResponse.status === 423) {
           console.warn(
             'El servidor rechazó la solicitud: El sistema ya se encuentra bloqueado por otra tarea.',
@@ -109,41 +147,36 @@ export class Dashboard implements OnDestroy {
             errorResponse,
           );
         }
-        // Unlock the UI in case of error
         this.isLocked.set(false);
       },
     });
   }
 
-  // This method subscribes to the log stream for the given deployment ID and updates the logs signal in real-time
+
+  // Deploy logic and state
+
   private subscribeToLogs(deploymentId: string): void {
     let isDeploymentComplete = false;
 
     this.deploymentService.getLogStream(deploymentId).subscribe({
-      next: (newLogLine) => {
-        console.log('Nueva línea de log recibida: ' + newLogLine);
+      next: (newLogLine: string) => {
+        console.log(`Nueva línea de log recibida: ${newLogLine}`);
 
-        this.logs.update((currentLogs) => [...currentLogs, newLogLine]);
+        this.logs.update((logs) => [...logs, newLogLine]);
 
-        if (
-          newLogLine.includes('Pipeline finalizado') ||
-          newLogLine.includes('SUCCESS') ||
-          newLogLine.includes('FAILURE')
-        ) {
+        if (/(Pipeline finalizado|SUCCESS|FAILURE)/.test(newLogLine)) {
           console.log('Despliegue finalizado.');
           isDeploymentComplete = true;
 
           if (newLogLine.includes('SUCCESS')) {
             console.log('Detected SUCCESS, starting countdown.');
-            setTimeout(() => {
-              this.startCountdown(10);
-            }, 1000);
+            setTimeout(() => this.startCountdown(10), 1000);
           } else {
             this.isLocked.set(false);
           }
         }
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error('Error en el stream de datos SSE (Conexión cerrada o interrumpida):', err);
         this.isLocked.set(false);
         isDeploymentComplete = true;
@@ -158,98 +191,6 @@ export class Dashboard implements OnDestroy {
     });
   }
 
-  // This method loads the initial color from the database and applies it to the UI if valid
-  private loadInitialColorFromDb(): void {
-    this.http.get<unknown>(`${this.baseUrl}/config/COLOR`).subscribe({
-      next: (payload) => {
-        const color = this.extractColorFromPayload(payload);
-        if (color) {
-          this.applyBackgroundColor(color);
-        }
-      },
-      error: () => {
-        console.debug('No se pudo leer el color inicial desde la BD');
-      },
-    });
-  }
-
-  private openConfigStream(): void {
-    if (typeof EventSource === 'undefined') {
-      return;
-    }
-
-    this.closeConfigStream();
-
-    this.configEventSource = new EventSource(`${this.baseUrl}/dashboard/stream`);
-
-    this.configEventSource.addEventListener('config-update', (event: Event) => {
-      this.handleConfigEvent(event);
-    });
-
-    this.configEventSource.onmessage = (event: MessageEvent) => {
-      this.handleConfigEvent(event);
-    };
-  }
-
-  private closeConfigStream(): void {
-    if (this.configEventSource) {
-      try {
-        this.configEventSource.close();
-      } catch {}
-      this.configEventSource = null;
-    }
-  }
-
-  private handleConfigEvent(event: Event): void {
-    const messageEvent = event as MessageEvent;
-    const rawData = messageEvent.data;
-
-    let payload: unknown = rawData;
-
-    if (typeof rawData === 'string') {
-      try {
-        payload = JSON.parse(rawData);
-      } catch {
-        payload = rawData;
-      }
-    }
-
-    const color = this.extractColorFromPayload(payload);
-    if (color) {
-      this.applyBackgroundColor(color);
-    }
-  }
-
-  private extractColorFromPayload(payload: unknown): string | null {
-    if (typeof payload === 'string') {
-      return this.isValidColor(payload) ? payload : null;
-    }
-
-    if (!payload || typeof payload !== 'object') {
-      return null;
-    }
-
-    const record = payload as Record<string, unknown>;
-
-    const candidate =
-      record['configValue'] ?? record['config_value'] ?? record['value'] ?? record['color'];
-
-    if (typeof candidate === 'string' && this.isValidColor(candidate)) {
-      return candidate;
-    }
-
-    return null;
-  }
-
-  private applyBackgroundColor(color: string): void {
-    if (!this.isValidColor(color)) return;
-
-    this.selectedColor.set(color);
-    document.documentElement.style.background = color;
-    document.body.style.background = color;
-    document.documentElement.style.setProperty('--deploy-bg', color);
-  }
-
   private startCountdown(seconds: number): void {
     console.log(`Starting countdown for ${seconds} seconds.`);
 
@@ -258,9 +199,7 @@ export class Dashboard implements OnDestroy {
     this.isLocked.set(true);
     this.countdown.set(seconds);
 
-    if (this.countdownSubscription) {
-      this.countdownSubscription.unsubscribe();
-    }
+    this.countdownSubscription?.unsubscribe();
 
     this.countdownSubscription = interval(1000)
       .pipe(take(seconds + 1))
@@ -280,15 +219,134 @@ export class Dashboard implements OnDestroy {
     this.http.get<boolean>(`${this.baseUrl}/config/status/lock`).subscribe({
       next: (isLockedResponse) => {
         this.isLocked.set(isLockedResponse);
-
         if (!isLockedResponse) {
           sessionStorage.removeItem('deploy_cooldown');
         }
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Error al verificar el estado del candado', err);
         this.isLocked.set(true);
       },
     });
+  }
+
+
+  // Carousel logic
+
+  nextSlide(id: ProjectId): void {
+    const totalImages = this.projectImages[id].length;
+    this.carouselIndex[id].update((current) => (current + 1) % totalImages);
+    this.resetAutoSlide(id);
+  }
+
+  prevSlide(id: ProjectId): void {
+    const totalImages = this.projectImages[id].length;
+    this.carouselIndex[id].update((current) => (current - 1 + totalImages) % totalImages);
+    this.resetAutoSlide(id);
+  }
+
+  goToSlide(id: ProjectId, index: number): void {
+    this.carouselIndex[id].set(index);
+    this.resetAutoSlide(id);
+  }
+
+  startAutoSlide(id: ProjectId): void {
+    this.autoSlideIntervals[id] = window.setInterval(() => this.nextSlide(id), 3000);
+  }
+
+  stopAutoSlide(id: ProjectId): void {
+    if (this.autoSlideIntervals[id] !== undefined) {
+      window.clearInterval(this.autoSlideIntervals[id]);
+      this.autoSlideIntervals[id] = undefined;
+    }
+  }
+
+  resetAutoSlide(id: ProjectId): void {
+    this.stopAutoSlide(id);
+    this.startAutoSlide(id);
+  }
+
+
+  // Config, streams and colors
+
+  private loadInitialColorFromDb(): void {
+    this.http.get<unknown>(`${this.baseUrl}/config/COLOR`).subscribe({
+      next: (payload) => {
+        const color = this.extractColorFromPayload(payload);
+        if (color) this.applyBackgroundColor(color);
+      },
+      error: () => console.debug('No se pudo leer el color inicial desde la BD'),
+    });
+  }
+
+  private openConfigStream(): void {
+    if (typeof EventSource === 'undefined') return;
+
+    this.closeConfigStream();
+    this.configEventSource = new EventSource(`${this.baseUrl}/dashboard/stream`);
+
+    this.configEventSource.addEventListener('config-update', (event: Event) =>
+      this.handleConfigEvent(event),
+    );
+    this.configEventSource.onmessage = (event: MessageEvent) => this.handleConfigEvent(event);
+  }
+
+  private closeConfigStream(): void {
+    if (this.configEventSource) {
+      try {
+        this.configEventSource.close();
+      } catch {}
+      this.configEventSource = null;
+    }
+  }
+
+  private handleConfigEvent(event: Event): void {
+    const messageEvent = event as MessageEvent;
+    const rawData = messageEvent.data;
+
+    let payload: unknown = rawData;
+    if (typeof rawData === 'string') {
+      try {
+        payload = JSON.parse(rawData);
+      } catch {
+        payload = rawData;
+      }
+    }
+
+    const color = this.extractColorFromPayload(payload);
+    if (color) this.applyBackgroundColor(color);
+  }
+
+  private extractColorFromPayload(payload: unknown): string | null {
+    if (typeof payload === 'string') {
+      return this.isValidColor(payload) ? payload : null;
+    }
+
+    if (!payload || typeof payload !== 'object') {
+      return null;
+    }
+
+    const record = payload as Record<string, unknown>;
+    const candidate =
+      record['configValue'] ?? record['config_value'] ?? record['value'] ?? record['color'];
+
+    if (typeof candidate === 'string' && this.isValidColor(candidate)) {
+      return candidate;
+    }
+
+    return null;
+  }
+
+  private applyBackgroundColor(color: string): void {
+    if (!this.isValidColor(color)) return;
+
+    this.selectedColor.set(color);
+    document.documentElement.style.background = color;
+    document.body.style.background = color;
+    document.documentElement.style.setProperty('--deploy-bg', color);
+  }
+
+  private isValidColor(candidate: string | null): boolean {
+    return !!candidate && /^#([A-Fa-f0-9]{6})$/.test(candidate);
   }
 }
