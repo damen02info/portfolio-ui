@@ -1362,6 +1362,22 @@
   margin: 0;
 }
 
+.project-link {
+  font-size: 1rem;
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  display: block; 
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.project-link:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
 .project-description {
   font-size: 0.9rem;
   color: var(--text-secondary);
