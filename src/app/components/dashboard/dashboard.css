@@ -339,6 +339,10 @@
   background-image: url('assets/logos/mysql_logo.png');
 }
 
+.skill-springai-langchain {
+  background-color: #059669;
+}
+
 /* Middleware, DevOps & Tools */
 .skill-wso2 {
   background-color: #e46e2e;
@@ -372,6 +376,10 @@
 .skill-git {
   background-color: #f05032;
   background-image: url('assets/logos/git_logo.png');
+}
+
+.skill-copilot-opencode {
+  background-color: #4f46e5;
 }
 
 /* --- 3 section --- */
