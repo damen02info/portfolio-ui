@@ -1,59 +1,34 @@
-# PortfolioMonitUi
+# Portfolio - Daniel Méndez (DeployStream)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.13.
+Repositorio del código fuente de mi portfolio personal. Este proyecto funciona como una carta de presentación y como una prueba práctica de arquitectura y automatización, conectando el desarrollo de software con la infraestructura en un entorno de producción real.
 
-## Development server
+## Perfil
 
-To start a local development server, run:
+Desarrollador Junior especializado en backend, bases de datos y administración de servidores (DevOps). Estudiante de Ingeniería Informática enfocado en la resolución de incidencias en caliente y la optimización de sistemas. 
 
-```bash
-ng serve
-```
+## Stack Tecnológico
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+* **Backend y Bases de Datos:** Java, Spring Boot, Python, PostgreSQL, MySQL, Oracle DB.
+* **Frontend:** Angular.
+* **DevOps y Middleware:** Docker, Jenkins, Git, MuleSoft, WebLogic, WSO2, OpenAPI/YAML.
+* **Herramientas IA:** Spring AI / LangChain, Copilot, OpenCode.
 
-## Code scaffolding
+## Arquitectura y Deploy Lab
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+El proyecto integra una sección de demostración técnica (Deploy Lab) que interactúa con un entorno real en producción. Las características principales a nivel de arquitectura incluyen:
 
-```bash
-ng generate component component-name
-```
+* **Disparo Asíncrono:** La interfaz (Angular) gestiona bloqueos de estado mediante *Signals*, mientras el backend (Spring Boot) utiliza `@Async` para delegar la carga a la API de Jenkins sin interrumpir la experiencia del usuario.
+* **Eventos en Tiempo Real (SSE):** Tras ejecutar el pipeline en Jenkins, el backend se conecta al servidor para capturar las trazas (logs) y transmitirlas directamente a la terminal del cliente mediante Server-Sent Events.
+* **Monitorización de Base de Datos y Rollback:** El sistema rastrea y muestra los cambios en los registros de PostgreSQL en tiempo real. Un proceso en segundo plano gestiona la cuenta atrás para la destrucción del entorno efímero, restaurando la base de datos a su estado original de forma automática.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Otros Proyectos Integrados
 
-```bash
-ng generate --help
-```
+El portfolio hace referencia a infraestructura y aplicaciones complementarias:
+* **Home Lab:** Servidor propio (Debian) enfocado en alta disponibilidad y seguridad (proxies inversos, fail2ban, túneles de Cloudflare) que aloja builds, automatizaciones con n8n y gestión multimedia.
+* **MacroAI (Contador de Calorías IA):** MVP en Flutter que consume un backend propio orquestado con n8n y PostgreSQL.
 
-## Building
+## Contacto
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+* **Email:** daniel.mendezz.arias@gmail.com
+* **LinkedIn:** [dma2002](https://linkedin.com/in/dma2002)
+* **GitHub:** [damen02info](https://github.com/damen02info)
