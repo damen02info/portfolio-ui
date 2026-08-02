@@ -177,10 +177,14 @@
         <p class="exp-desc">
           Gestión de la infraestructura local y los servidores de realidad virtual, garantizando la operatividad de los
           sistemas y resolviendo incidencias de red y hardware. En paralelo, desarrollo herramientas
-          internas con Java y Angular para la monitorización centralizada de las salas de juego y automatizo las
+          internas con Java, Angular y Python para la monitorización centralizada de las salas de juego y automatizo las
           actualizaciones de software en producción.
         </p>
+        <button class="btn btn-secondary mt-2" (click)="openExpModal('vz')">Ver apps</button>
+
       </div>
+
+
     </div>
 
     <div class="exp-row">
@@ -351,6 +355,32 @@
 
   </div>
 </section>
+
+<!-- Modal for the experiencies -->
+<dialog #expDialog class="exp-modal">
+  <div class="modal-header">
+    <h3>{{ modalTitle() }}</h3>
+    <button class="close-btn" (click)="closeExpModal()">&times;</button>
+  </div>
+
+  <div class="carousel-wrapper modal-carousel">
+    @if (expImages().length > 1) {
+    <button class="carousel-button prev" (click)="prevModalSlide()">&#10094;</button>
+    }
+
+    <div class="carousel">
+      <div class="carousel-slides" [style.transform]="'translateX(-' + (modalIndex() * 100) + '%)'">
+        @for (image of expImages(); track $index) {
+        <img [src]="image" alt="Captura de {{ modalTitle() }}" class="project-image carousel-slide">
+        }
+      </div>
+    </div>
+
+    @if (expImages().length > 1) {
+    <button class="carousel-button next" (click)="nextModalSlide()">&#10095;</button>
+    }
+  </div>
+</dialog>
 
 <!-- Demo section -->
 <section id="demo-section" class="demo-section">
