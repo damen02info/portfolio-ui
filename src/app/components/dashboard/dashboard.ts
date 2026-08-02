@@ -1,4 +1,13 @@
-import { Component, inject, signal, OnDestroy, OnInit, WritableSignal } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  OnDestroy,
+  OnInit,
+  WritableSignal,
+  viewChild,
+  ElementRef,
+} from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -19,9 +28,7 @@ type ProjectId = 'flutter' | 'deployStream' | 'homeLab';
   styleUrl: './dashboard.css',
 })
 export class Dashboard implements OnInit, OnDestroy {
-
   // Propiertes
-
   private readonly baseUrl = environment.apiUrl;
   private readonly deploymentService = inject(Deployment);
   private readonly http = inject(HttpClient);
@@ -64,6 +71,12 @@ export class Dashboard implements OnInit, OnDestroy {
     deployStream: undefined,
   };
 
+  // --- LÓGICA DEL MODAL DE EXPERIENCIA ---
+
+  readonly expDialog = viewChild<ElementRef<HTMLDialogElement>>('expDialog');
+  readonly modalTitle = signal('');
+  readonly expImages = signal<string[]>([]);
+  readonly modalIndex = signal(0);
 
   // Lyfecycle
 
@@ -93,7 +106,6 @@ export class Dashboard implements OnInit, OnDestroy {
     this.stopAutoSlide('deployStream');
     this.stopAutoSlide('homeLab');
   }
-
 
   // Interface events
 
@@ -151,7 +163,6 @@ export class Dashboard implements OnInit, OnDestroy {
       },
     });
   }
-
 
   // Deploy logic and state
 
@@ -230,7 +241,6 @@ export class Dashboard implements OnInit, OnDestroy {
     });
   }
 
-
   // Carousel logic
 
   nextSlide(id: ProjectId): void {
@@ -265,7 +275,6 @@ export class Dashboard implements OnInit, OnDestroy {
     this.stopAutoSlide(id);
     this.startAutoSlide(id);
   }
-
 
   // Config, streams and colors
 
@@ -348,5 +357,44 @@ export class Dashboard implements OnInit, OnDestroy {
 
   private isValidColor(candidate: string | null): boolean {
     return !!candidate && /^#([A-Fa-f0-9]{6})$/.test(candidate);
+  }
+
+  readonly experienceData: Record<string, { title: string; images: string[] }> = {
+    vz: {
+      title: 'Aplicaciones Virtual Zone',
+      images: ['/assets/images/experience/virtualzone/app1.png', '/assets/images/experience/virtualzone/app2.png'],
+    },
+    ntt: {
+      title: 'Desarrollos NTT Data',
+      images: ['/assets/images/proyects/ntt/app1.png'],
+    },
+    pccomp: {
+      title: 'Proyectos PcComponentes',
+      images: ['/assets/images/proyects/pccomp/app1.png'],
+    },
+  };
+
+  openExpModal(id: string): void {
+    const data = this.experienceData[id];
+    if (data && data.images.length > 0) {
+      this.modalTitle.set(data.title);
+      this.expImages.set(data.images);
+      this.modalIndex.set(0);
+      this.expDialog()?.nativeElement.showModal();
+    }
+  }
+
+  closeExpModal(): void {
+    this.expDialog()?.nativeElement.close();
+  }
+
+  nextModalSlide(): void {
+    const total = this.expImages().length;
+    this.modalIndex.update((current) => (current + 1) % total);
+  }
+
+  prevModalSlide(): void {
+    const total = this.expImages().length;
+    this.modalIndex.update((current) => (current - 1 + total) % total);
   }
 }
