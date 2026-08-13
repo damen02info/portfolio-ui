@@ -1,1 +1,28 @@
-<app-dashboard></app-dashboard>
+<header class="site-header" [class.scrolled]="scrolled()">
+  <nav class="navbar" aria-label="Navegación principal">
+    <button class="brand" (click)="navigate('inicio')" aria-label="Ir al inicio">
+      <span class="brand-name">Daniel<span class="brand-dot">.</span></span>
+    </button>
+
+    <button class="nav-toggle" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()"
+      aria-label="Abrir menú de navegación" [class.open]="menuOpen()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <ul class="nav-links" [class.open]="menuOpen()">
+      @for (link of navLinks; track link.id) {
+      <li>
+        <button class="nav-link" [class.active]="activeSection() === link.id" (click)="navigate(link.id)">
+          {{ link.label }}
+        </button>
+      </li>
+      }
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <app-dashboard></app-dashboard>
+</main>

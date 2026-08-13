@@ -1,5 +1,5 @@
 <!-- Hero section -->
-<section class="hero-section">
+<section id="inicio" class="hero-section">
   <div class="hero-content">
     <h2 class="greeting">Encantado, soy</h2>
     <h1 class="name">Daniel Méndez</h1>
@@ -7,31 +7,30 @@
 
     <p class="description">
       Desarrollador especializado en backend, bases de datos y administración de servidores. Mi objetivo es entender y
-      conectar el
-      código con la infraestructura de forma eficiente.
+      conectar el código con la infraestructura de forma eficiente.
 
       Combino la experiencia en sistemas y desarrollo de aplicaciones en mi día a día actual con mi experiencia previa
-      en NTT
-      Data y PcComponentes. Estudiante de Ingeniería Informática en la UOC y acostumbrado a resolver incidencias en
-      caliente y bajo entornos de presión.
+      en NTT Data y PcComponentes. Estudiante de Ingeniería Informática en la UOC y acostumbrado a resolver incidencias
+      en caliente y bajo entornos de presión.
     </p>
 
     <div class="action-buttons">
       <div class="top-row">
-        <button class="btn btn-secondary"
-          onclick="document.getElementById('demo-section').scrollIntoView({ behavior: 'smooth' })">
+        <button class="btn btn-secondary" (click)="scrollToSection('demo-section')">
           Demo de despliegue
         </button>
-
-        <button class="btn btn-secondary" onclick="
-            document.getElementById('portfolio-footer').scrollIntoView({ behavior: 'smooth' })
-          ">
+        <button class="btn btn-secondary" (click)="scrollToSection('contacto')">
           Contacto
         </button>
       </div>
-      <button class="btn btn-primary"
-        onclick="window.open('/assets/pdf/DanielMendez_CV.pdf', '_blank', 'noopener,noreferrer')">
-        CV
+      <button class="btn btn-primary" (click)="openCV()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Descargar CV
       </button>
     </div>
   </div>
@@ -39,10 +38,16 @@
   <div class="hero-avatar">
     <div class="avatar-circle"></div>
   </div>
+
+  <a class="scroll-indicator" href="#educacion" aria-label="Ir a la siguiente sección">
+    <span class="mouse">
+      <span class="wheel"></span>
+    </span>
+  </a>
 </section>
 
 <!-- Education section -->
-<section class="education-section">
+<section id="educacion" class="education-section">
   <h2 class="section-title">Educación y aprendizaje</h2>
 
   <div class="education-container">
@@ -114,7 +119,7 @@
             <span>Oracle DB</span>
           </div>
           <div class="skill-item">
-            <div class="skill-circle skill-springai-langchain"></div>
+            <div class="skill-circle skill-springai-langchain skill-mono">AI</div>
             <span>Spring AI / LangChain</span>
           </div>
         </div>
@@ -148,11 +153,11 @@
             <span>Postman</span>
           </div>
           <div class="skill-item">
-            <div class="skill-circle skill-wso2"></div>
+            <div class="skill-circle skill-wso2 skill-mono">W2</div>
             <span>WSO2</span>
           </div>
           <div class="skill-item">
-            <div class="skill-circle skill-copilot-opencode"></div>
+            <div class="skill-circle skill-copilot-opencode skill-mono">OC</div>
             <span>Copilot / OpenCode</span>
           </div>
         </div>
@@ -162,11 +167,10 @@
 </section>
 
 <!-- Experience section -->
-<section class="experience-section">
+<section id="experiencia" class="experience-section">
   <h2 class="section-title">Experiencia</h2>
 
   <div class="experience-list">
-
     <div class="exp-row">
       <div class="exp-logo-col offset-logo">
         <div class="logo-diamond logo-vz"></div>
@@ -181,10 +185,7 @@
           actualizaciones de software en producción.
         </p>
         <button class="btn btn-secondary mt-2" (click)="openExpModal('vz')">Ver apps</button>
-
       </div>
-
-
     </div>
 
     <div class="exp-row">
@@ -217,18 +218,16 @@
         </p>
       </div>
     </div>
-
   </div>
 </section>
 
 <!-- Projects Section -->
-<section class="projects-section">
+<section id="proyectos" class="projects-section">
   <h2 class="section-title">Proyectos</h2>
   <p class="projects-intro">
     Un recorrido por todos mis proyectos personales. En cada uno de ellos busco abarcar el ciclo completo: desde el
-    desarrollo
-    frontend y backend hasta la automatización de su despliegue. Mi objetivo es siempre integrar alguna tecnología o
-    enfoque nuevo para seguir ampliando mi stack.
+    desarrollo frontend y backend hasta la automatización de su despliegue. Mi objetivo es siempre integrar alguna
+    tecnología o enfoque nuevo para seguir ampliando mi stack.
   </p>
 
   <div class="projects-container">
@@ -239,13 +238,13 @@
         <p>
           Gestiono mi propio servidor local (Home Lab) donde alojo tanto proyectos de desarrollo (servidores Nginx,
           builds de Java, Angular y Flutter, Jenkins o bases de datos) como servicios de uso personal, incluyendo
-          automatización
-          de flujos de trabajo con N8N y gestión multimedia. La infraestructura mantiene un fuerte enfoque en la
-          seguridad, implementando proxies inversos, limitación de peticiones (rate limiting) y capas de protección
-          avanzadas y privadas para garantizar la integridad y alta disponibilidad de todo el entorno.
+          automatización de flujos de trabajo con N8N y gestión multimedia. La infraestructura mantiene un fuerte
+          enfoque en la seguridad, implementando proxies inversos, limitación de peticiones (rate limiting) y capas de
+          protección avanzadas y privadas para garantizar la integridad y alta disponibilidad de todo el entorno.
         </p>
 
-        <div class="carousel-wrapper homeLab">
+        <div class="carousel-wrapper homeLab" (mouseenter)="stopAutoSlide('homeLab')"
+          (mouseleave)="startAutoSlide('homeLab')">
           <button class="carousel-button prev" (click)="prevSlide('homeLab')" aria-label="Anterior">&#10094;</button>
 
           <div class="carousel">
@@ -278,11 +277,12 @@
             class="project-link">macroai.mdz.cat</a>
           <p class="project-description">
             MVP en producción para el seguimiento nutricional y reconocimiento de alimentos mediante IA. Es una prueba
-            deconcepto exitosa que integra un frontend en Flutter con un backend en N8N y PostgreSQL.
+            de concepto exitosa que integra un frontend en Flutter con un backend en N8N y PostgreSQL.
             El desarrollo sirvió para evaluar, aprender e integrar OpenCode de forma efectiva en mi
             stack tecnológico. La aplicación mantiene altos estándares de privacidad, incorporando autenticación segura,
             cuentas persistentes y cifrado completo de la información.</p>
-          <div class="carousel-wrapper flutter">
+          <div class="carousel-wrapper flutter" (mouseenter)="stopAutoSlide('flutter')"
+            (mouseleave)="startAutoSlide('flutter')">
             <button class="carousel-button prev" (click)="prevSlide('flutter')" aria-label="Anterior">&#10094;</button>
 
             <div class="carousel">
@@ -315,7 +315,8 @@
             Un stack corporativo, profesional y dimensionado para el proyecto.
           </p>
 
-          <div class="carousel-wrapper deploystream">
+          <div class="carousel-wrapper deploystream" (mouseenter)="stopAutoSlide('deployStream')"
+            (mouseleave)="startAutoSlide('deployStream')">
             <button class="carousel-button prev" (click)="prevSlide('deployStream')"
               aria-label="Anterior">&#10094;</button>
 
@@ -348,8 +349,7 @@
       <p class="future-projects-text">
         Próximamente estaré trabajando en una aplicación de gestión para profesionales del sector eléctrico.
         Desarrollaré el frontend con React y Tailwind CSS, aprovecharé este proyecto para integrar, poner a prueba y
-        evaluar
-        Supabase como backend.
+        evaluar Supabase como backend.
       </p>
     </div>
 
@@ -360,12 +360,12 @@
 <dialog #expDialog class="exp-modal">
   <div class="modal-header">
     <h3>{{ modalTitle() }}</h3>
-    <button class="close-btn" (click)="closeExpModal()">&times;</button>
+    <button class="close-btn" (click)="closeExpModal()" aria-label="Cerrar">&times;</button>
   </div>
 
   <div class="carousel-wrapper modal-carousel">
     @if (expImages().length > 1) {
-    <button class="carousel-button prev" (click)="prevModalSlide()">&#10094;</button>
+    <button class="carousel-button prev" (click)="prevModalSlide()" aria-label="Anterior">&#10094;</button>
     }
 
     <div class="carousel">
@@ -377,7 +377,7 @@
     </div>
 
     @if (expImages().length > 1) {
-    <button class="carousel-button next" (click)="nextModalSlide()">&#10095;</button>
+    <button class="carousel-button next" (click)="nextModalSlide()" aria-label="Siguiente">&#10095;</button>
     }
   </div>
 </dialog>
@@ -385,7 +385,7 @@
 <!-- Demo section -->
 <section id="demo-section" class="demo-section">
   <div class="demo-header">
-    <h2 class="section-title">Deploy Lab: Demostración de despligue </h2>
+    <h2 class="section-title">Deploy Lab: Demostración de despliegue</h2>
 
     <div class="demo-summary-box">
       <p class="demo-main-idea">
@@ -413,7 +413,7 @@
         <div class="highlight-item">
           <strong>3. Monitorización de BD y Rollback:</strong>
           Al finalizar, el portfolio cambia de color de forma reactiva. Un hilo en Java inicia un contador de
-          destrucción; puedes monitorizar en tiempo real en la tabla de arriba cómo varían los registros de la base de
+          destrucción; puedes monitorizar en tiempo real en la tabla de abajo cómo varían los registros de la base de
           datos hasta que el entorno expira y vuelve al estado original.
         </div>
       </div>
@@ -424,15 +424,15 @@
     <div class="terminal-window">
       <div class="terminal-header">
         <div class="terminal-buttons">
-          <span class="close-btn"></span>
-          <span class="min-btn"></span>
-          <span class="max-btn"></span>
+          <span class="tb-btn tb-close"></span>
+          <span class="tb-btn tb-min"></span>
+          <span class="tb-btn tb-max"></span>
         </div>
-        <div class="terminal-title">LOGS EN TIEMPO REAL - DeployStream & Jenkins Job</div>
+        <div class="terminal-title">LOGS EN TIEMPO REAL — DeployStream & Jenkins Job</div>
       </div>
 
       <div class="terminal-body" appAutoScroll>
-        <pre><code>daniel@deploystream:~$ 
+        <pre><code>daniel@deploystream:~$
 @for (log of logs(); track $index) {
 {{ log }}
 }
@@ -440,17 +440,19 @@
 <span class="blinking-cursor">_</span>
 }</code></pre>
       </div>
-
     </div>
 
     <div class="control-panel">
       <h3 class="panel-title">Panel de control</h3>
 
       <div class="panel-group">
-        <label>Seleccionar variable de entorno:</label>
+        <label>Seleccionar color de entorno:</label>
         <div class="color-options">
-          <button class="color-dot color-red" aria-label="Rojo" (click)="selectColor('#9e2f31')"
-            [class.selected]="selectedColor() === '#9e2f31'"></button>
+          @for (color of deployColors; track color.hex) {
+          <button class="color-dot" [style.background-color]="color.hex" [attr.aria-label]="color.name"
+            [attr.aria-pressed]="selectedColor() === color.hex" [class.selected]="selectedColor() === color.hex"
+            (click)="selectColor(color.hex)"></button>
+          }
         </div>
       </div>
 
@@ -461,18 +463,27 @@
       }
 
       @if (countdown() > 0) {
-      <div class="countdown-timer">Entorno restaurándose en {{ countdown() }}s</div>
+      <div class="countdown-timer" aria-live="polite">Entorno restaurándose en {{ countdown() }}s</div>
+      }
+
+      @if (isLocked() && countdown() === 0) {
+      <div class="locked-state" aria-live="polite">
+        <span class="pulse-dot"></span>
+        Despliegue en curso…
+      </div>
       }
 
     </div>
   </div>
 
-  <app-db-monitor></app-db-monitor>
+  <div class="db-monitor-wrap">
+    <app-db-monitor></app-db-monitor>
+  </div>
 
 </section>
 
 <!-- Footer section -->
-<footer id="portfolio-footer" class="portfolio-footer">
+<footer id="contacto" class="portfolio-footer">
   <div class="footer-container">
     <div class="footer-brand">
       <h3>Daniel Méndez</h3>
@@ -482,7 +493,7 @@
     <div class="footer-links">
       <a href="mailto:daniel.mendezz.arias@gmail.com" class="footer-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
+          stroke-linejoin="round" aria-hidden="true">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
           <polyline points="22,6 12,13 2,6"></polyline>
         </svg>
@@ -490,7 +501,7 @@
       </a>
       <a href="https://linkedin.com/in/dma2002" target="_blank" rel="noopener noreferrer" class="footer-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
+          stroke-linejoin="round" aria-hidden="true">
           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
           <rect x="2" y="9" width="4" height="12"></rect>
           <circle cx="4" cy="4" r="2"></circle>
@@ -499,7 +510,7 @@
       </a>
       <a href="https://github.com/damen02info" target="_blank" rel="noopener noreferrer" class="footer-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
+          stroke-linejoin="round" aria-hidden="true">
           <path
             d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
           </path>
@@ -512,7 +523,7 @@
   <div class="footer-bottom">
     <div class="footer-location">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
+        stroke-linejoin="round" aria-hidden="true">
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
         <circle cx="12" cy="10" r="3"></circle>
       </svg>
