@@ -41,6 +41,13 @@ export class Dashboard implements OnInit, OnDestroy {
   readonly logs = signal<string[]>([]);
   readonly selectedColor = signal<string | null>(null);
 
+  readonly deployColors = [
+    { hex: '#9e2f31', name: 'Rojo' },
+    { hex: '#1f5f8b', name: 'Azul' },
+    { hex: '#2e7d4f', name: 'Verde' },
+    { hex: '#6d4f9e', name: 'Morado' },
+  ];
+
   readonly projectImages: Record<ProjectId, string[]> = {
     flutter: [
       '/assets/images/proyects/macroai/MacroAI_1.png',
@@ -108,6 +115,14 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   // Interface events
+
+  scrollToSection(id: string): void {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  openCV(): void {
+    window.open('/assets/pdf/DanielMendez_CV.pdf', '_blank', 'noopener,noreferrer');
+  }
 
   selectColor(hex: string): void {
     const normalized = (hex ?? '').trim();

@@ -1,32 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* src/styles.css */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh; 
-  
-  background-color: var(--background-general-dark);
-  
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color: var(--text-main);
-  
-  background-attachment: fixed;
-}
-
-* {
-  box-sizing: border-box;
-}
-
+/* ============================================================
+   Design tokens
+   ============================================================ */
 :root {
-  --background-general-dark: #291f1a;
-  --background-general-medium: #24150d;
-  --background-general-light: #2f1e12;
+  --background-general-dark: #1c1512;
+  --background-general-medium: #251a13;
+  --background-general-light: #2f2116;
 
-  --text-main: #fff8ef;
-  --text-secondary: #e9cda8;
+  --text-main: #fff7ef;
+  --text-secondary: #ecd3b0;
+  --text-muted: #c0a17c;
 
+  --accent: #ffb865;
   --accent-primary: #ffb865;
   --accent-strong: #ff8f2e;
   --accent-soft: #ffd8a8;
@@ -40,12 +24,121 @@ html, body {
   --background-card-dark: rgba(122, 75, 47, 0.94);
   --background-card-light: rgba(96, 57, 35, 0.96);
 
-  --text-main-rgb: 255, 248, 239; 
-  --accent-primary-rgb: 255, 184, 101; 
-  --background-general-dark-rgb: 20, 13, 8; 
-  --background-card-dark-rgb: 122, 75, 47; 
+  --gradient-accent: linear-gradient(135deg, #ffb865 0%, #ff8f2e 100%);
+  --gradient-hero:
+    radial-gradient(1100px 600px at 82% -10%, rgba(255, 143, 46, 0.16), transparent 60%),
+    radial-gradient(900px 520px at -8% 110%, rgba(255, 184, 101, 0.1), transparent 55%);
+
+  --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+
+  --header-height: 72px;
+
+  /* rgb variants */
+  --text-main-rgb: 255, 247, 239;
+  --accent-primary-rgb: 255, 184, 101;
+  --background-general-dark-rgb: 28, 21, 18;
+  --background-card-dark-rgb: 122, 75, 47;
   --btn-secondary-bg-rgb: 122, 75, 47;
   --btn-primary-bg-rgb: 244, 178, 107;
   --accent-strong-rgb: 255, 143, 46;
   --border-soft-surface-rgb: 255, 255, 255;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: var(--background-general-dark);
+  background-attachment: fixed;
+
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+section {
+  scroll-margin-top: calc(var(--header-height) + 12px);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: rgba(var(--accent-strong-rgb), 0.4);
+  color: var(--text-main);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-general-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--btn-secondary-bg);
+  border-radius: 999px;
+  border: 2px solid var(--background-general-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-strong);
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
