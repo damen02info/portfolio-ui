@@ -195,8 +195,7 @@ export class Dashboard implements OnInit, OnDestroy {
           isDeploymentComplete = true;
 
           if (newLogLine.includes('SUCCESS')) {
-            console.log('Detected SUCCESS, starting countdown.');
-            setTimeout(() => this.startCountdown(10), 1000);
+            console.log('Detected SUCCESS, waiting for backend countdown.');
           } else {
             this.isLocked.set(false);
           }
@@ -312,6 +311,22 @@ export class Dashboard implements OnInit, OnDestroy {
     this.configEventSource.addEventListener('config-update', (event: Event) =>
       this.handleConfigEvent(event),
     );
+    this.configEventSource.addEventListener('countdown-tick', (event: Event) => {
+      const messageEvent = event as MessageEvent;
+      try {
+        const data = JSON.parse(messageEvent.data);
+        if (typeof data.remaining === 'number') {
+          this.countdown.set(data.remaining);
+          if (data.remaining > 0) {
+            this.isLocked.set(true);
+          } else {
+            this.isLocked.set(false);
+          }
+        }
+      } catch (e) {
+        console.error('Error parsing countdown tick', e);
+      }
+    });
     this.configEventSource.onmessage = (event: MessageEvent) => this.handleConfigEvent(event);
   }
 
